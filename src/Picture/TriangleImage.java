@@ -10,16 +10,26 @@ import java.util.ArrayList;
  */
 public class TriangleImage {
     ArrayList<Triangle> triangles;
+    ArrayList<Double> brightness;
 
     public TriangleImage(ArrayList<Triangle> triangles) {
         this.triangles = triangles;
+        this.brightness = new ArrayList<>();
+        for (int i = 0; i < triangles.size(); i++) {
+            brightness.add((255.0 / triangles.size() * 4 + 10) / 255);
+        }
+    }
+
+    public TriangleImage(ArrayList<Triangle> triangles, ArrayList<Double> brightness) {
+        this.triangles = triangles;
+        this.brightness = brightness;
     }
 
     double getDepth(Point point) {
         double result = 0;
-        for (Triangle triangle: triangles) {
-            if(triangle.inside(point)) {
-                result += 255.0 / triangles.size() * 4;
+        for (int i = 0; i < triangles.size(); i++) {
+            if(triangles.get(i).inside(point)) {
+                result += brightness.get(i) * 255;
             }
         }
         return result;
@@ -36,11 +46,11 @@ public class TriangleImage {
         return result;
     }
 
-    public Triangle get(int ind) {
+    public Triangle getTriangle(int ind) {
         return triangles.get(ind);
     }
 
-    public ArrayList<Triangle> getTriangles() {
-        return triangles;
+    public double getBrightness(int ind) {
+        return brightness.get(ind);
     }
 }

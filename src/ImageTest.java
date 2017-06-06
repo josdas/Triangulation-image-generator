@@ -26,13 +26,19 @@ public class ImageTest {
     }
 
     public static void main(String[] args) {
-        Picture.Image image = new Picture.Image(getImageFromFile());
-        GeneticImage geneticImage = new GeneticImage(image);
-        Generator<Picture.TriangleImage, GeneticImage> generator = new Generator<>(geneticImage, 10, 3, 2);
+        BufferedImage imageFile = getImageFromFile();
 
-        generator.generation(10);
-        draw(generator.getBest().getImage(image.getH(), image.getW()).getImage());
+        Picture.Image image = new Picture.Image(imageFile, 0.1);
+        GeneticImage geneticImage = new GeneticImage(image);
+        Generator<Picture.TriangleImage, GeneticImage> generator = new Generator<>(geneticImage, 20, 10, 10);
+
+
+        generator.generation(3000);
+
+        assert imageFile != null;
+        draw(generator.getBest().getImage(imageFile.getWidth(), imageFile.getHeight()).getImage());
         draw(image.getImage());
+        draw(imageFile);
     }
 
 }
@@ -60,6 +66,6 @@ class ImageComponent extends JComponent {
         if (image == null) {
             return;
         }
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(image, 0, 0, 500, 500, null);
     }
 }

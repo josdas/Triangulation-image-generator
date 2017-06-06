@@ -16,13 +16,15 @@ public class Image {
         data = new double[h][w];
     }
 
-    public Image(BufferedImage image) {
-        this.h = image.getHeight();
-        this.w = image.getWidth();
+    public Image(BufferedImage image, double t) {
+        this.h = (int)(image.getHeight() * t);
+        this.w = (int)(image.getWidth() * t);
         this.data = new double[h][w];
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                int temp = image.getRGB(j, i);
+                int x = (int)(j / t);
+                int y = (int)(i / t);
+                int temp = image.getRGB(x, y);
                 int rgb[] = new int[]{
                         (temp >> 16) & 0xff, //red
                         (temp >> 8) & 0xff, //green
