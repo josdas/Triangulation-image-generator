@@ -51,10 +51,10 @@ public class Image {
                 double f = a.get(i, j);
                 double s = b.get(i, j);
                 if(f > s) {
-                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 2);
+                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 1);
                 }
                 else {
-                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 3);
+                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 1);
                 }
             }
         }

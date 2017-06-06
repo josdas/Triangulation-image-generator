@@ -29,8 +29,8 @@ public class ImageTest {
         BufferedImage imageFile = getImageFromFile();
 
         Picture.Image image = new Picture.Image(imageFile, 0.1);
-        GeneticImage geneticImage = new GeneticImage(image);
-        Generator<Picture.TriangleImage, GeneticImage> generator = new Generator<>(geneticImage, 20, 5, 10);
+        GeneticImageModelB geneticImage = new GeneticImageModelB(image);
+        Generator<Picture.TriangleImage, GeneticImageModelB> generator = new Generator<>(geneticImage, 20, 10, 10);
 
 
         generator.generation(10000);

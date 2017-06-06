@@ -31,7 +31,7 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
     @Override
     public T getBest() {
         ArrayList<T> temp = getAllObject();
-        double maxValue = Double.MIN_VALUE;
+        double maxValue = Double.NEGATIVE_INFINITY;
         T result = null;
         for (T obj : temp) {
             double val = option.eval(obj);

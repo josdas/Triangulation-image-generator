@@ -10,8 +10,8 @@ import java.util.Random;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class GeneticImage implements GeneticObject<TriangleImage> {
-    static final int MAX_SIZE = 50;
+public class GeneticImageModelA implements GeneticObject<TriangleImage> {
+    static final int MAX_SIZE = 100;
     static final double SMALL_COEF = 0.5;
     static final int MUTATION_SIZE = 10;
     static final int CROSS_SIZE = 30;
@@ -19,7 +19,7 @@ public class GeneticImage implements GeneticObject<TriangleImage> {
     Random random;
     Image image;
 
-    public GeneticImage(Image image) {
+    public GeneticImageModelA(Image image) {
         this.image = image;
         this.random = new Random();
     }

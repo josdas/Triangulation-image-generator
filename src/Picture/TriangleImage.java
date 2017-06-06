@@ -16,7 +16,7 @@ public class TriangleImage {
         this.triangles = triangles;
         this.brightness = new ArrayList<>();
         for (int i = 0; i < triangles.size(); i++) {
-            brightness.add((255.0 / triangles.size() * 4 + 50) / 255);
+            brightness.add((255.0 / triangles.size() * 4 + 10) / 255);
         }
     }
 
@@ -44,6 +44,10 @@ public class TriangleImage {
             }
         }
         return result;
+    }
+
+    public int size() {
+        return triangles.size();
     }
 
     public Triangle getTriangle(int ind) {
