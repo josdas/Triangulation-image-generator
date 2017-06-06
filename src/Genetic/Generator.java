@@ -74,6 +74,19 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
                 return 1;
             });
 
+            for (int k = 0; k < newObj.size(); k++) {
+                ArrayList<Integer> removes = new ArrayList<>();
+                for(int j = 1; k + j < newObj.size(); j++) {
+                    double dis = option.distance(newObj.get(k), newObj.get(k + j));
+                    if(dis < 0.01) {
+                        removes.add(i + j);
+                    }
+                }
+                for (int j = removes.size() - 1; j >= 0; j--) {
+                    newObj.remove(removes.get(j));
+                }
+            }
+
             while (newObj.size() > generationSize) {
                 newObj.remove(newObj.size() - 1);
             }

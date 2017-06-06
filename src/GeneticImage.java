@@ -12,9 +12,9 @@ import java.util.Random;
  */
 public class GeneticImage implements GeneticObject<TriangleImage> {
     static final int MAX_SIZE = 50;
-    static final double SMALL_COEF = 0.3;
-    static final int MUTATION_SIZE = 5;
-    static final int CROSS_SIZE = 20;
+    static final double SMALL_COEF = 0.5;
+    static final int MUTATION_SIZE = 10;
+    static final int CROSS_SIZE = 30;
 
     Random random;
     Image image;
@@ -67,6 +67,7 @@ public class GeneticImage implements GeneticObject<TriangleImage> {
             double bright = obj.getBrightness(i);
             if (index[i]) {
                 bright += (random.nextDouble() - 0.5) * SMALL_COEF;
+                bright = norm(bright);
             }
             triangles.add(triangle);
             brightness.add(bright);
@@ -106,8 +107,9 @@ public class GeneticImage implements GeneticObject<TriangleImage> {
         ArrayList<Triangle> triangles = new ArrayList<>();
         ArrayList<Double> brightness = new ArrayList<>();
 
+        int change = random.nextInt(CROSS_SIZE) + 1;
         boolean[] index = new boolean[MAX_SIZE];
-        for (int i = 0; i < CROSS_SIZE; i++) {
+        for (int i = 0; i < change; i++) {
             index[random.nextInt(MAX_SIZE)] = true;
         }
         for (int i = 0; i < MAX_SIZE; i++) {
@@ -139,5 +141,17 @@ public class GeneticImage implements GeneticObject<TriangleImage> {
             triangles.add(Triangle.getRand(random));
         }
         return new TriangleImage(triangles);
+    }
+
+    @Override
+    public double distance(TriangleImage a, TriangleImage b) {
+        double result = 0;
+        for (int i = 0; i < MAX_SIZE; i++) {
+            result += Math.pow(a.getBrightness(i) - b.getBrightness(i), 2);
+            result += Math.pow(Point.distance(a.getTriangle(i).a, b.getTriangle(i).a), 2);
+            result += Math.pow(Point.distance(a.getTriangle(i).b, b.getTriangle(i).b), 2);
+            result += Math.pow(Point.distance(a.getTriangle(i).c, b.getTriangle(i).c), 2);
+        }
+        return result;
     }
 }

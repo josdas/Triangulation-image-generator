@@ -48,6 +48,12 @@ public class Point {
         return new Point(a.x * t + b.x * (1 - t), a.y * t + b.y * (1 - t));
     }
 
+    public static double distance(Point a, Point b) {
+        double x = a.x - b.x;
+        double y = a.y - b.y;
+        return Math.sqrt(x * x + y * y);
+    }
+
     public static double area(Point a, Point b, Point c) {
         Point sa = Point.sub(a, b);
         Point sc = Point.sub(c, b);

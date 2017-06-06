@@ -12,4 +12,6 @@ public interface GeneticObject<T> {
     T crossover(T a, T b);
 
     T genRand();
+
+    double distance(T a, T b);
 }

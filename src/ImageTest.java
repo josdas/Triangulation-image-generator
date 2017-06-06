@@ -18,7 +18,7 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("src/test.png"));
+            return ImageIO.read(new File("src/test.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,10 +30,10 @@ public class ImageTest {
 
         Picture.Image image = new Picture.Image(imageFile, 0.1);
         GeneticImage geneticImage = new GeneticImage(image);
-        Generator<Picture.TriangleImage, GeneticImage> generator = new Generator<>(geneticImage, 20, 10, 10);
+        Generator<Picture.TriangleImage, GeneticImage> generator = new Generator<>(geneticImage, 20, 5, 10);
 
 
-        generator.generation(3000);
+        generator.generation(10000);
 
         assert imageFile != null;
         draw(generator.getBest().getImage(imageFile.getWidth(), imageFile.getHeight()).getImage());

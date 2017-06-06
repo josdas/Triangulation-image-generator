@@ -48,7 +48,14 @@ public class Image {
         double result = 0;
         for (int i = 0; i < a.h; i++) {
             for (int j = 0; j < a.w; j++) {
-                result += Math.pow(a.get(i, j) - b.get(i, j), 2);
+                double f = a.get(i, j);
+                double s = b.get(i, j);
+                if(f > s) {
+                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 2);
+                }
+                else {
+                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 3);
+                }
             }
         }
         return result / a.h / a.w;
@@ -69,6 +76,9 @@ public class Image {
                 int e = (int) data[j][i];
                 if (e > 255) {
                     e = 255;
+                }
+                if(e < 0) {
+                    e = 0;
                 }
                 pixels[j * w + i] = new Color(e, e, e).getRGB();
             }
