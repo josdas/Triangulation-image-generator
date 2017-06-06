@@ -11,11 +11,15 @@ import java.util.ArrayList;
 public class TriangleImage {
     ArrayList<Triangle> triangles;
 
+    public TriangleImage(ArrayList<Triangle> triangles) {
+        this.triangles = triangles;
+    }
+
     double getDepth(Point point) {
         double result = 0;
         for (Triangle triangle: triangles) {
             if(triangle.inside(point)) {
-                result++;
+                result += 255.0 / triangles.size() * 4;
             }
         }
         return result;
@@ -30,5 +34,13 @@ public class TriangleImage {
             }
         }
         return result;
+    }
+
+    public Triangle get(int ind) {
+        return triangles.get(ind);
+    }
+
+    public ArrayList<Triangle> getTriangles() {
+        return triangles;
     }
 }

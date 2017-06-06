@@ -22,6 +22,7 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
         this.numberMutation = numberMutation;
         this.numberCross = numberCross;
         this.generationSize = generationSize;
+        objects = new ArrayList<>();
         for (int i = 0; i < generationSize; i++) {
             objects.add(option.genRand());
         }
@@ -45,6 +46,8 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
     @Override
     public void generation(int n) {
         for (int i = 0; i < n; i++) {
+            System.out.println("Start #" + i);
+
             ArrayList<T> newObj = new ArrayList<T>();
             for (int j = 0; j < numberMutation; j++) {
                 newObj.add(option.mutation(
@@ -76,6 +79,8 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
             }
 
             objects = newObj;
+
+            System.out.println("Finish generation #" + i + " with result:" + option.eval(getBest()));
         }
     }
 
