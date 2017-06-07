@@ -13,7 +13,7 @@ import java.util.Random;
 public class GeneticImageModelB implements GeneticObject<TriangleImage> {
     static final int MAX_SIZE = 150;
     static final int MUTATION_SIZE = 10;
-    static final double MUTATION_COEF = 0.2;
+    static final double MUTATION_COEF = 0.5;
 
     Random random;
     Image image;
@@ -119,10 +119,16 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
 
     @Override
     public double eval(TriangleImage obj) {
-        return Image.distance(
+        double s = 0;
+        double result = Image.distance(
                 obj.getImage(image.getH(), image.getW()),
                 image
-        ) - obj.size() * 100;
+        );
+        for (int i = 0; i < obj.size(); i++) {
+            double t = obj.getTriangle(i).area();
+            s += t;
+        }
+        return result;
     }
 
     @Override
@@ -143,13 +149,18 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
                 brightness.add(b.getBrightness(i));
             }
         }
+        while(triangles.size() > MAX_SIZE) {
+            int i = random.nextInt(triangles.size());
+            triangles.remove(i);
+            brightness.remove(i);
+        }
         return new TriangleImage(triangles, brightness);
     }
 
     @Override
     public TriangleImage genRand() {
         ArrayList<Triangle> triangles = new ArrayList<>();
-        for (int i = 0; i < MAX_SIZE / 2; i++) {
+        for (int i = 0; i < MAX_SIZE; i++) {
             triangles.add(Triangle.getRand(random));
         }
         return new TriangleImage(triangles);

@@ -54,7 +54,7 @@ public class Image {
                     result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 1);
                 }
                 else {
-                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 1);
+                    result += Math.pow(Math.abs(a.get(i, j) - b.get(i, j)), 1.3);
                 }
             }
         }
