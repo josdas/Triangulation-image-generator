@@ -1,6 +1,7 @@
 package Genetic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
     int numberMutation;
     int numberCross;
     int generationSize;
+    int i = 0;
 
     public Generator(E option, int generationSize, int numberMutation, int numberCross) {
         this.option = option;
@@ -45,7 +47,7 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
 
     @Override
     public void generation(int n) {
-        for (int i = 0; i < n; i++) {
+        for (int ind = 0; ind < n; i++, ind++) {
             System.out.println("Start #" + i);
 
             ArrayList<T> newObj = new ArrayList<>();
@@ -54,10 +56,19 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
                         objects.get(random.nextInt(objects.size()))
                 ));
             }
+            int numberPairs = objects.size() * objects.size();
+            ArrayList<Integer> pairs = new ArrayList<>();
+            for (int j = 0; j < numberPairs; j++) {
+                pairs.add(j);
+            }
+            Collections.shuffle(pairs);
+
             for (int j = 0; j < numberCross; j++) {
-                newObj.add(option.crossover(
-                        objects.get(random.nextInt(objects.size())),
-                        objects.get(random.nextInt(objects.size()))
+                newObj.add(option.mutation(
+                        option.crossover(
+                            objects.get(pairs.get(j) % objects.size()),
+                            objects.get(pairs.get(j) / objects.size())
+                        )
                 ));
             }
             newObj.addAll(objects.stream().collect(Collectors.toList()));
@@ -76,12 +87,12 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
 
             ArrayList<T> selection = new ArrayList<>();
             for (int j = 0; j < newObj.size(); j++) {
-                double c = (double) j / newObj.size() * 2 - 0.01;
+                double c = (double) j / newObj.size() * 3 - 0.3;
                 if (random.nextDouble() > c) {
                     selection.add(newObj.get(j));
                 }
             }
-            
+
             objects = selection;
 
             System.out.println("Finish generation #" + i + " with result:" + option.eval(getBest()) + " Size: " + objects.size());

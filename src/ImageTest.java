@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.Random;
 
 public class ImageTest {
+    final static int MAX_TIME = 60 * 60 * 11;
+    final static int NUMBER_OF_SECTION = 10;
+
     static Random random = new Random();
 
     static void draw(Image image) {
@@ -19,7 +22,7 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("src/test.jpg"));
+            return ImageIO.read(new File("src/test_2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,12 +32,25 @@ public class ImageTest {
     public static void main(String[] args) {
         BufferedImage imageFile = getImageFromFile();
 
-        Picture.Image image = new Picture.Image(imageFile, 0.1);
+        Picture.Image image = new Picture.Image(imageFile, 0.2);
         GeneticImageModelC geneticImage = new GeneticImageModelC(image);
-        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 10, 10, 50);
+        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 10, 20, 20);
 
-
-        generator.generation(10000);
+        long startTime = System.currentTimeMillis();
+        int sectionIndex = 0;
+        while(true) {
+            long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
+            if(timeSpent > MAX_TIME) {
+                break;
+            }
+            if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
+                sectionIndex++;
+                GeneticImageModelC.MAX_SIZE = 30 + sectionIndex * 25;
+                System.out.println("Switch");
+            }
+            System.out.println("Time spent:" + timeSpent);
+            generator.generation(10);
+        }
 
         assert imageFile != null;
         draw(generator.getBest().getImage(imageFile.getWidth(), imageFile.getHeight()).getImage());

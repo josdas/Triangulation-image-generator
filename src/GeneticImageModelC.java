@@ -12,9 +12,9 @@ import java.util.TreeMap;
  * Created by Stas on 06.06.2017.
  */
 public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
-    static final int MAX_SIZE = 50;
-    static final int MUTATION_SIZE = 20;
-    static final double MUTATION_COEF = 0.1;
+    public static int MAX_SIZE = 30;
+    static final int MUTATION_SIZE = 5;
+    static final double MUTATION_COEF = 0.3;
 
     Random random;
     Image image;
@@ -142,6 +142,7 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
             double t = obj.getTriangle(i).area();
             s += t;
         }
+        //result += s * 20;
         evalStore.put(obj.getNumber(), result);
         return result;
     }
@@ -170,7 +171,7 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
     @Override
     public TriangleImageDepth genRand() {
         ArrayList<TriangleCD> triangles = new ArrayList<>();
-        for (int i = 0; i < MAX_SIZE / 4; i++) {
+        for (int i = 0; i < 10; i++) {
             triangles.add(TriangleCD.getRand(random));
         }
         return new TriangleImageDepth(triangles);
