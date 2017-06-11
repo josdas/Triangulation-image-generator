@@ -12,9 +12,9 @@ import java.util.TreeMap;
  * Created by Stas on 06.06.2017.
  */
 public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
-    static final int MAX_SIZE = 30;
-    static final int MUTATION_SIZE = 10;
-    static final double MUTATION_COEF = 0.2;
+    static final int MAX_SIZE = 50;
+    static final int MUTATION_SIZE = 20;
+    static final double MUTATION_COEF = 0.1;
 
     Random random;
     Image image;

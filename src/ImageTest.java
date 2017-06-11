@@ -31,7 +31,7 @@ public class ImageTest {
 
         Picture.Image image = new Picture.Image(imageFile, 0.1);
         GeneticImageModelC geneticImage = new GeneticImageModelC(image);
-        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 20, 10, 20);
+        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 10, 10, 50);
 
 
         generator.generation(10000);
