@@ -2,7 +2,6 @@ package Genetic;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Created by Stas on 06.06.2017.
@@ -60,7 +59,7 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
                         objects.get(random.nextInt(objects.size()))
                 ));
             }
-            newObj.addAll(objects.stream().collect(Collectors.toList()));
+            //newObj.addAll(objects.stream().collect(Collectors.toList()));
 
             newObj.sort((a, b) -> {
                 double valueA = option.eval(a);
@@ -73,19 +72,6 @@ public class Generator<T, E extends GeneticObject<T>> implements GeneticGenerato
                 }
                 return 1;
             });
-
-            for (int k = 0; k < newObj.size(); k++) {
-                ArrayList<Integer> removes = new ArrayList<>();
-                for(int j = 1; k + j < newObj.size(); j++) {
-                    double dis = option.distance(newObj.get(k), newObj.get(k + j));
-                    if(dis < 0.01) {
-                        removes.add(i + j);
-                    }
-                }
-                for (int j = removes.size() - 1; j >= 0; j--) {
-                    newObj.remove(removes.get(j));
-                }
-            }
 
             while (newObj.size() > generationSize) {
                 newObj.remove(newObj.size() - 1);

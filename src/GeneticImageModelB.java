@@ -2,7 +2,7 @@ import Genetic.GeneticObject;
 import Geometry.Point;
 import Geometry.Triangle;
 import Picture.Image;
-import Picture.TriangleImage;
+import Picture.TriangleImageTrans;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class GeneticImageModelB implements GeneticObject<TriangleImage> {
+public class GeneticImageModelB implements GeneticObject<TriangleImageTrans> {
     static final int MAX_SIZE = 150;
     static final int MUTATION_SIZE = 10;
     static final double MUTATION_COEF = 0.5;
@@ -27,7 +27,7 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
             ArrayList<Triangle> triangles,
             ArrayList<Double> brightness,
             boolean[] index,
-            TriangleImage obj
+            TriangleImageTrans obj
     ) {
         for (int i = 0; i < obj.size(); i++) {
             if(!index[i]) {
@@ -63,7 +63,7 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
             ArrayList<Triangle> triangles,
             ArrayList<Double> brightness,
             boolean[] index,
-            TriangleImage obj
+            TriangleImageTrans obj
     ) {
         for (int i = 0; i < obj.size(); i++) {
             if(index[i]) {
@@ -80,7 +80,7 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
             ArrayList<Triangle> triangles,
             ArrayList<Double> brightness,
             boolean[] index,
-            TriangleImage obj
+            TriangleImageTrans obj
     ) {
         for (int i = 0; i < obj.size(); i++) {
             Triangle temp = new Triangle(obj.getTriangle(i));
@@ -94,7 +94,7 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
         }
     }
     @Override
-    public TriangleImage mutation(TriangleImage obj) {
+    public TriangleImageTrans mutation(TriangleImageTrans obj) {
         ArrayList<Triangle> triangles = new ArrayList<>();
         ArrayList<Double> brightness = new ArrayList<>();
 
@@ -114,11 +114,11 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
                 mutationThird(triangles, brightness, index, obj);
                 break;
         }
-        return new TriangleImage(triangles, brightness);
+        return new TriangleImageTrans(triangles, brightness);
     }
 
     @Override
-    public double eval(TriangleImage obj) {
+    public double eval(TriangleImageTrans obj) {
         double s = 0;
         double result = Image.distance(
                 obj.getImage(image.getH(), image.getW()),
@@ -132,7 +132,7 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
     }
 
     @Override
-    public TriangleImage crossover(TriangleImage a, TriangleImage b) {
+    public TriangleImageTrans crossover(TriangleImageTrans a, TriangleImageTrans b) {
         ArrayList<Triangle> triangles = new ArrayList<>();
         ArrayList<Double> brightness = new ArrayList<>();
 
@@ -154,20 +154,20 @@ public class GeneticImageModelB implements GeneticObject<TriangleImage> {
             triangles.remove(i);
             brightness.remove(i);
         }
-        return new TriangleImage(triangles, brightness);
+        return new TriangleImageTrans(triangles, brightness);
     }
 
     @Override
-    public TriangleImage genRand() {
+    public TriangleImageTrans genRand() {
         ArrayList<Triangle> triangles = new ArrayList<>();
         for (int i = 0; i < MAX_SIZE; i++) {
             triangles.add(Triangle.getRand(random));
         }
-        return new TriangleImage(triangles);
+        return new TriangleImageTrans(triangles);
     }
 
     @Override
-    public double distance(TriangleImage a, TriangleImage b) {
+    public double distance(TriangleImageTrans a, TriangleImageTrans b) {
         return 10;
     }
 }

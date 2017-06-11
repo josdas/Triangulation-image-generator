@@ -1,4 +1,5 @@
 import Genetic.Generator;
+import Picture.TriangleImageDepth;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("src/test_1.jpg"));
+            return ImageIO.read(new File("src/test.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,15 +29,15 @@ public class ImageTest {
     public static void main(String[] args) {
         BufferedImage imageFile = getImageFromFile();
 
-        Picture.Image image = new Picture.Image(imageFile, 0.3);
-        GeneticImageModelB geneticImage = new GeneticImageModelB(image);
-        Generator<Picture.TriangleImage, GeneticImageModelB> generator = new Generator<>(geneticImage, 20, 15, 10);
+        Picture.Image image = new Picture.Image(imageFile, 0.1);
+        GeneticImageModelC geneticImage = new GeneticImageModelC(image);
+        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 20, 10, 20);
 
 
-        generator.generation(300);
+        generator.generation(10000);
 
         assert imageFile != null;
-        //draw(generator.getBest().getImage(imageFile.getWidth(), imageFile.getHeight()).getImage());
+        draw(generator.getBest().getImage(imageFile.getWidth(), imageFile.getHeight()).getImage());
         draw(generator.getBest().getImage(image.getW(), image.getH()).getImage());
         draw(image.getImage());
         draw(imageFile);

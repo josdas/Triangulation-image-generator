@@ -2,7 +2,7 @@ import Genetic.GeneticObject;
 import Geometry.Point;
 import Geometry.Triangle;
 import Picture.Image;
-import Picture.TriangleImage;
+import Picture.TriangleImageTrans;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class GeneticImageModelA implements GeneticObject<TriangleImage> {
+public class GeneticImageModelA implements GeneticObject<TriangleImageTrans> {
     static final int MAX_SIZE = 100;
     static final double SMALL_COEF = 0.5;
     static final int MUTATION_SIZE = 10;
@@ -38,11 +38,11 @@ public class GeneticImageModelA implements GeneticObject<TriangleImage> {
         return c;
     }
 
-    private TriangleImage mutation_type_first(
+    private TriangleImageTrans mutation_type_first(
             ArrayList<Triangle> triangles,
             ArrayList<Double> brightness,
             boolean[] index,
-            TriangleImage obj) {
+            TriangleImageTrans obj) {
         for (int i = 0; i < MAX_SIZE; i++) {
             Triangle triangle = new Triangle(obj.getTriangle(i));
             double bright = obj.getBrightness(i);
@@ -54,14 +54,14 @@ public class GeneticImageModelA implements GeneticObject<TriangleImage> {
             triangles.add(triangle);
             brightness.add(bright);
         }
-        return new TriangleImage(triangles, brightness);
+        return new TriangleImageTrans(triangles, brightness);
     }
 
-    private TriangleImage mutation_type_second(
+    private TriangleImageTrans mutation_type_second(
             ArrayList<Triangle> triangles,
             ArrayList<Double> brightness,
             boolean[] index,
-            TriangleImage obj) {
+            TriangleImageTrans obj) {
         for (int i = 0; i < MAX_SIZE; i++) {
             Triangle triangle = new Triangle(obj.getTriangle(i));
             double bright = obj.getBrightness(i);
@@ -72,11 +72,11 @@ public class GeneticImageModelA implements GeneticObject<TriangleImage> {
             triangles.add(triangle);
             brightness.add(bright);
         }
-        return new TriangleImage(triangles, brightness);
+        return new TriangleImageTrans(triangles, brightness);
     }
 
     @Override
-    public TriangleImage mutation(TriangleImage obj) {
+    public TriangleImageTrans mutation(TriangleImageTrans obj) {
         ArrayList<Triangle> triangles = new ArrayList<>();
         ArrayList<Double> brightness = new ArrayList<>();
 
@@ -91,11 +91,11 @@ public class GeneticImageModelA implements GeneticObject<TriangleImage> {
         else {
             mutation_type_second(triangles, brightness, index, obj);
         }
-        return new TriangleImage(triangles, brightness);
+        return new TriangleImageTrans(triangles, brightness);
     }
 
     @Override
-    public double eval(TriangleImage obj) {
+    public double eval(TriangleImageTrans obj) {
         return Image.distance(
                 obj.getImage(image.getH(), image.getW()),
                 image
@@ -103,7 +103,7 @@ public class GeneticImageModelA implements GeneticObject<TriangleImage> {
     }
 
     @Override
-    public TriangleImage crossover(TriangleImage a, TriangleImage b) {
+    public TriangleImageTrans crossover(TriangleImageTrans a, TriangleImageTrans b) {
         ArrayList<Triangle> triangles = new ArrayList<>();
         ArrayList<Double> brightness = new ArrayList<>();
 
@@ -131,20 +131,20 @@ public class GeneticImageModelA implements GeneticObject<TriangleImage> {
             triangles.add(triangle);
             brightness.add(bright);
         }
-        return new TriangleImage(triangles, brightness);
+        return new TriangleImageTrans(triangles, brightness);
     }
 
     @Override
-    public TriangleImage genRand() {
+    public TriangleImageTrans genRand() {
         ArrayList<Triangle> triangles = new ArrayList<>();
         for (int i = 0; i < MAX_SIZE; i++) {
             triangles.add(Triangle.getRand(random));
         }
-        return new TriangleImage(triangles);
+        return new TriangleImageTrans(triangles);
     }
 
     @Override
-    public double distance(TriangleImage a, TriangleImage b) {
+    public double distance(TriangleImageTrans a, TriangleImageTrans b) {
         double result = 0;
         for (int i = 0; i < MAX_SIZE; i++) {
             result += Math.pow(a.getBrightness(i) - b.getBrightness(i), 2);
