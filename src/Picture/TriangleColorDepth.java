@@ -1,6 +1,5 @@
 package Picture;
 
-import Geometry.Point;
 import Geometry.Triangle;
 
 import java.util.Random;
@@ -8,8 +7,8 @@ import java.util.Random;
 /**
  * Created by Stas on 11.06.2017.
  */
-public class TriangleCD extends Triangle {
-    public TriangleCD(Triangle b, double depth, double color) {
+public class TriangleColorDepth extends Triangle {
+    public TriangleColorDepth(Triangle b, double depth, double color) {
         super(b);
         this.depth = depth;
         this.color = color;
@@ -26,18 +25,14 @@ public class TriangleCD extends Triangle {
     double depth;
     double color;
 
-    public TriangleCD(Point a, Point b, Point c) {
-        super(a, b, c);
-    }
-
-    public TriangleCD(TriangleCD a) {
+    public TriangleColorDepth(TriangleColorDepth a) {
         super(a);
         this.color = a.color;
         this.depth = a.depth;
     }
 
-    public static TriangleCD getRand(Random random) {
-        return new TriangleCD(
+    public static TriangleColorDepth getRand(Random random) {
+        return new TriangleColorDepth(
                 Triangle.getRand(random),
                 random.nextDouble(),
                 random.nextDouble()

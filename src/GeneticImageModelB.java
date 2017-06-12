@@ -165,9 +165,4 @@ public class GeneticImageModelB implements GeneticObject<TriangleImageTrans> {
         }
         return new TriangleImageTrans(triangles);
     }
-
-    @Override
-    public double distance(TriangleImageTrans a, TriangleImageTrans b) {
-        return 10;
-    }
 }

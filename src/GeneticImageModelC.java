@@ -1,7 +1,8 @@
 import Genetic.GeneticObject;
 import Geometry.Point;
 import Picture.Image;
-import Picture.TriangleCD;
+import Picture.ImageWB;
+import Picture.TriangleColorDepth;
 import Picture.TriangleImageDepth;
 
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.Random;
 import java.util.TreeMap;
 // TODO сделай очистку "лишних" треугольников
 // TODO сделай нормальный порядок рендера
+// TODO нормальный код
+// TODO RGB
+// TODO авто цвет
 
 /**
  * Created by Stas on 06.06.2017.
@@ -48,11 +52,11 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
     }
 
     private void mutationFirst(
-            ArrayList<TriangleCD> triangles,
+            ArrayList<TriangleColorDepth> triangles,
             TriangleImageDepth obj
     ) {
         for (int i = 0; i < obj.size(); i++) {
-            triangles.add(new TriangleCD(obj.getTriangle(i)));
+            triangles.add(new TriangleColorDepth(obj.getTriangle(i)));
         }
         int numberMutations = random.nextInt(MUTATION_SIZE);
         for (int i = 0; i < numberMutations; i++) {
@@ -61,18 +65,18 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
                 triangles.remove(random.nextInt(triangles.size()));
             }
             if (triangles.size() + 1 < MAX_SIZE && !temp) {
-                triangles.add(TriangleCD.getRand(random));
+                triangles.add(TriangleColorDepth.getRand(random));
             }
         }
     }
 
     private void mutationSecond(
-            ArrayList<TriangleCD> triangles,
+            ArrayList<TriangleColorDepth> triangles,
             boolean[] index,
             TriangleImageDepth obj
     ) {
         for (int i = 0; i < obj.size(); i++) {
-            triangles.add(new TriangleCD(obj.getTriangle(i)));
+            triangles.add(new TriangleColorDepth(obj.getTriangle(i)));
             if (index[i]) {
                 if (random.nextBoolean()) {
                     triangles.get(i).setDepth(
@@ -88,12 +92,12 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
     }
 
     private void mutationThird(
-            ArrayList<TriangleCD> triangles,
+            ArrayList<TriangleColorDepth> triangles,
             boolean[] index,
             TriangleImageDepth obj
     ) {
         for (int i = 0; i < obj.size(); i++) {
-            TriangleCD triangle = new TriangleCD(obj.getTriangle(i));
+            TriangleColorDepth triangle = new TriangleColorDepth(obj.getTriangle(i));
             if (index[i]) {
                 triangle.a = smallChange(triangle.a, MUTATION_COEF);
                 triangle.b = smallChange(triangle.b, MUTATION_COEF);
@@ -105,7 +109,7 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
 
     @Override
     public TriangleImageDepth mutation(TriangleImageDepth obj) {
-        ArrayList<TriangleCD> triangles = new ArrayList<>();
+        ArrayList<TriangleColorDepth> triangles = new ArrayList<>();
         final int type = random.nextInt(3);
 
         if(obj.size() == 0 || type == 0) {
@@ -136,31 +140,33 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
             return evalStore.get(obj.getNumber());
         }
         double s = 0;
-        double result = Image.distance(
+        double result = ImageWB.distance(
                 obj.getImage(image.getH(), image.getW()),
                 image
         );
         for (int i = 0; i < obj.size(); i++) {
             double t = obj.getTriangle(i).area();
+            if(t < 0.01) {
+                result += 10;
+            }
             s += t;
         }
-        //result += s * 20;
         evalStore.put(obj.getNumber(), result);
         return result;
     }
 
     @Override
     public TriangleImageDepth crossover(TriangleImageDepth a, TriangleImageDepth b) {
-        ArrayList<TriangleCD> triangles = new ArrayList<>();
+        ArrayList<TriangleColorDepth> triangles = new ArrayList<>();
         double k = random.nextDouble();
         for (int i = 0; i < a.size(); i++) {
             if (random.nextDouble() < k) {
-                triangles.add(new TriangleCD(a.getTriangle(i)));
+                triangles.add(new TriangleColorDepth(a.getTriangle(i)));
             }
         }
         for (int i = 0; i < b.size(); i++) {
             if (random.nextDouble() >= k) {
-                triangles.add(new TriangleCD(b.getTriangle(i)));
+                triangles.add(new TriangleColorDepth(b.getTriangle(i)));
             }
         }
         while (triangles.size() > MAX_SIZE) {
@@ -172,15 +178,10 @@ public class GeneticImageModelC implements GeneticObject<TriangleImageDepth> {
 
     @Override
     public TriangleImageDepth genRand() {
-        ArrayList<TriangleCD> triangles = new ArrayList<>();
+        ArrayList<TriangleColorDepth> triangles = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            triangles.add(TriangleCD.getRand(random));
+            triangles.add(TriangleColorDepth.getRand(random));
         }
         return new TriangleImageDepth(triangles);
-    }
-
-    @Override
-    public double distance(TriangleImageDepth a, TriangleImageDepth b) {
-        return 10;
     }
 }

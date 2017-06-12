@@ -5,13 +5,11 @@ package Genetic;
  */
 
 public interface GeneticObject<T> {
-    T mutation(T obj);
-
     double eval(T obj);
+
+    T mutation(T obj);
 
     T crossover(T a, T b);
 
     T genRand();
-
-    double distance(T a, T b);
 }

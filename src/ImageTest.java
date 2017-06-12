@@ -1,4 +1,5 @@
 import Genetic.Generator;
+import Genetic.GeneratorImage;
 import Picture.TriangleImageDepth;
 
 import javax.imageio.ImageIO;
@@ -10,8 +11,8 @@ import java.io.IOException;
 import java.util.Random;
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 60 * 11;
-    final static int NUMBER_OF_SECTION = 10;
+    final static int MAX_TIME = 40 * 60;
+    final static int NUMBER_OF_SECTION = 4;
 
     static Random random = new Random();
 
@@ -22,7 +23,7 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("src/test_2.jpg"));
+            return ImageIO.read(new File("src/test.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,7 +35,7 @@ public class ImageTest {
 
         Picture.Image image = new Picture.Image(imageFile, 0.2);
         GeneticImageModelC geneticImage = new GeneticImageModelC(image);
-        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 10, 20, 10);
+        Generator<TriangleImageDepth, GeneticImageModelC> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
 
         long startTime = System.currentTimeMillis();
         int sectionIndex = 0;
