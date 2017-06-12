@@ -34,7 +34,7 @@ public class ImageTest {
 
         Picture.Image image = new Picture.Image(imageFile, 0.2);
         GeneticImageModelC geneticImage = new GeneticImageModelC(image);
-        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 10, 20, 20);
+        Generator<TriangleImageDepth, GeneticImageModelC> generator = new Generator<>(geneticImage, 10, 20, 10);
 
         long startTime = System.currentTimeMillis();
         int sectionIndex = 0;

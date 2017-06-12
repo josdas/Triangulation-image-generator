@@ -7,6 +7,8 @@ import Picture.TriangleImageDepth;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TreeMap;
+// TODO сделай очистку "лишних" треугольников
+// TODO сделай нормальный порядок рендера
 
 /**
  * Created by Stas on 06.06.2017.
