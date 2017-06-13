@@ -143,6 +143,11 @@ public class GeneticImageModelA implements GeneticObject<TriangleImageTrans> {
         return new TriangleImageTrans(triangles);
     }
 
+    @Override
+    public void clean(TriangleImageTrans a) {
+
+    }
+
     public double distance(TriangleImageTrans a, TriangleImageTrans b) {
         double result = 0;
         for (int i = 0; i < MAX_SIZE; i++) {

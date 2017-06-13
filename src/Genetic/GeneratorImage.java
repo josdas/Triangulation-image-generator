@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
  * Created by Stas on 12.06.2017.
  */
 public class GeneratorImage<T, E extends GeneticObject<T>> extends Generator<T, E> {
+    final static double START_PROB = 0.3;
+    final static double SCALE_PROB = 3;
+
     public GeneratorImage(E option, int generationSize, int numberMutation, int numberCross) {
         super(option, generationSize, numberMutation, numberCross);
     }
@@ -51,10 +54,14 @@ public class GeneratorImage<T, E extends GeneticObject<T>> extends Generator<T, 
 
         ArrayList<T> selection = new ArrayList<>();
         for (int j = 0; j < newObj.size(); j++) {
-            double c = (double) j / newObj.size() * 3 - 0.3;
+            double c = (double) j / newObj.size() * SCALE_PROB - START_PROB;
             if (random.nextDouble() > c) {
                 selection.add(newObj.get(j));
             }
+        }
+
+        for (T aSelection : selection) {
+            option.clean(aSelection);
         }
 
         return selection;

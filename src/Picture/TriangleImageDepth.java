@@ -7,7 +7,11 @@ import java.util.ArrayList;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class TriangleImageDepth extends AbsTriangleImage{
+public class TriangleImageDepth extends AbsTriangleImage {
+    public ArrayList<TriangleColorDepth> getTriangles() {
+        return triangles;
+    }
+
     ArrayList<TriangleColorDepth> triangles;
 
     public TriangleImageDepth(ArrayList<TriangleColorDepth> triangles) {

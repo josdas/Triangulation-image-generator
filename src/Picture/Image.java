@@ -13,6 +13,37 @@ public class Image extends AbsImage {
         data = new double[h][w][3];
     }
 
+    public Image(ImageWB[] imagesWB) {
+        super(imagesWB[0].getH(), imagesWB[0].getW());
+        assert imagesWB[0].getH() == imagesWB[1].getH()
+                && imagesWB[0].getH() == imagesWB[2].getH()
+                && imagesWB[0].getW() == imagesWB[1].getW()
+                && imagesWB[0].getW() == imagesWB[2].getW();
+        data = new double[h][w][3];
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                for (int k = 0; k < 3; k++) {
+                    data[i][j][k] = imagesWB[k].get(i, j);
+                }
+            }
+        }
+    }
+
+    public ImageWB[] toImagesWB() {
+        ImageWB[] imagesWB = new ImageWB[3];
+        for (int i = 0; i < 3; i++) {
+            imagesWB[i] = new ImageWB(h, w);
+        }
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                for (int k = 0; k < 3; k++) {
+                    imagesWB[k].set(i, j, data[i][j][k]);
+                }
+            }
+        }
+        return imagesWB;
+    }
+
     public Image(BufferedImage image, double t) {
         super((int) (image.getHeight() * t), (int) (image.getWidth() * t));
         data = new double[h][w][3];

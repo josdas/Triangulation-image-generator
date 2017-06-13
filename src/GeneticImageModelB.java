@@ -165,4 +165,9 @@ public class GeneticImageModelB implements GeneticObject<TriangleImageTrans> {
         }
         return new TriangleImageTrans(triangles);
     }
+
+    @Override
+    public void clean(TriangleImageTrans a) {
+
+    }
 }

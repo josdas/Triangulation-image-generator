@@ -1,18 +1,28 @@
 import Genetic.Generator;
 import Genetic.GeneratorImage;
-import Picture.TriangleImageDepth;
+import Picture.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+// DONE сделай очистку "лишних" треугольников
+// TODO сделай нормальный порядок рендера (отказаться от глубины)
+// DONE нормальный код
+// DONE RGB
+// DONE авто цвет
+// TODO нормальный интерфейс
+// TODO RGB TriangleImage
+
 public class ImageTest {
-    final static int MAX_TIME = 40 * 60;
-    final static int NUMBER_OF_SECTION = 4;
+    final static int MAX_TIME = 60 * 15;
+    final static int MAX_TIME_FOR_ONE_COLOR = MAX_TIME / 3;
+    final static int NUMBER_OF_SECTION = 7;
 
     static Random random = new Random();
 
@@ -23,39 +33,60 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("src/test.jpg"));
+            return ImageIO.read(new File("src/test_3.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    public static void drawTriangleImage(AbsTriangleImage[] triangleImage, int h, int w) {
+        ImageWB[] imagesWB = new ImageWB[3];
+        for (int i = 0; i < 3; i++) {
+            imagesWB[i] = triangleImage[i].getImage(h, w);
+        }
+        Picture.Image resultImage = new Picture.Image(imagesWB);
+        draw(resultImage.getImage());
+    }
+
     public static void main(String[] args) {
         BufferedImage imageFile = getImageFromFile();
 
-        Picture.Image image = new Picture.Image(imageFile, 0.2);
-        GeneticImageModelC geneticImage = new GeneticImageModelC(image);
-        Generator<TriangleImageDepth, GeneticImageModelC> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
+        Picture.Image image = new Picture.Image(imageFile, 0.3);
 
-        long startTime = System.currentTimeMillis();
-        int sectionIndex = 0;
-        while(true) {
-            long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
-            if(timeSpent > MAX_TIME) {
-                break;
+        ImageWB[] imagesWB = image.toImagesWB();
+        TriangleImageDepth[] triangleImage = new TriangleImageDepth[3];
+        double[] results = new double[3];
+
+        for (int i = 0; i < 3; i++) {
+            GeneticImageModelD geneticImage = new GeneticImageModelD(imagesWB[i]);
+            Generator<TriangleImageDepth, GeneticImageModelD> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
+            long startTime = System.currentTimeMillis();
+            int sectionIndex = 0;
+            while (true) {
+                long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
+                if (timeSpent > MAX_TIME_FOR_ONE_COLOR) {
+                    break;
+                }
+                if (timeSpent > MAX_TIME_FOR_ONE_COLOR / NUMBER_OF_SECTION * sectionIndex) {
+                    sectionIndex++;
+                    GeneticImageModelC.MAX_SIZE += 25;
+                    System.out.println("Switch");
+                }
+                System.out.println("Time spent:" + timeSpent);
+                generator.generation(10);
             }
-            if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
-                sectionIndex++;
-                GeneticImageModelC.MAX_SIZE = 30 + sectionIndex * 25;
-                System.out.println("Switch");
-            }
-            System.out.println("Time spent:" + timeSpent);
-            generator.generation(10);
+            triangleImage[i] = generator.getBest();
+            results[i] = geneticImage.eval(triangleImage[i]);
+        }
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("The best with color " + i + " has result: " + results[i]);
         }
 
         assert imageFile != null;
-        draw(generator.getBest().getImage(imageFile.getWidth(), imageFile.getHeight()).getImage());
-        draw(generator.getBest().getImage(image.getW(), image.getH()).getImage());
+        drawTriangleImage(triangleImage, imageFile.getWidth(), imageFile.getHeight());
+        drawTriangleImage(triangleImage, image.getW(), image.getH());
         draw(image.getImage());
         draw(imageFile);
     }
