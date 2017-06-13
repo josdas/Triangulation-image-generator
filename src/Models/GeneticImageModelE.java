@@ -14,8 +14,8 @@ import java.util.TreeMap;
  */
 public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> {
     public static int MAX_SIZE = 30;
-    static final int MUTATION_SIZE = 5;
-    static final double MUTATION_COEF = 0.3;
+    static final int MUTATION_SIZE = 7;
+    public static double MUTATION_COEF = 0.2;
 
     Random random;
     AbsImage image;
@@ -126,10 +126,6 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
         ArrayList<TriangleColorRGBDepth> triangles = new ArrayList<>();
         int type = random.nextInt(4);
 
-        if (type == 3 && random.nextDouble() > 0.3) {
-            type = random.nextInt(3);
-        }
-
         if (obj.size() == 0 || type == 0) {
             mutationFirst(triangles, obj);
         } else if(type == 3) {
@@ -181,7 +177,7 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
                 }
             }
         }
-        double prob = random.nextDouble();
+        double prob = Math.max(random.nextDouble(), random.nextDouble());
         for (int i = 0; i < a.size(); i++) {
             if(random.nextDouble() < prob && numberPixels[i] > 0) {
                 double[] rgb = new double[3];
@@ -207,7 +203,7 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
         for (int i = 0; i < obj.size(); i++) {
             double t = obj.getTriangle(i).area();
             if (t < 0.003) {
-                result += 1;
+                result += 20;
             }
             s += t;
         }

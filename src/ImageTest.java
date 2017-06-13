@@ -22,11 +22,15 @@ import java.util.Random;
 // DONE RGB TriangleImage
 // TODO class rgb
 // TODO нормальная иерархия в GeneticImageModel
+// TODO отдельный класс для Random и вспомогательных функций
+// TODO temp файлы и сохренние результата в txt
+// TODO адаптивный коф. мутации
+// TODO
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 2;
+    final static int MAX_TIME = 60 * 60 * 1;
     final static int MAX_TIME_FOR_ONE_COLOR = MAX_TIME / 3;
-    final static int NUMBER_OF_SECTION = 7;
+    final static int NUMBER_OF_SECTION = 10;
 
     static Random random = new Random();
 
@@ -107,6 +111,7 @@ public class ImageTest {
         Generator<TriangleImageRGBDepth, GeneticImageModelE> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
         long startTime = System.currentTimeMillis();
         int sectionIndex = 0;
+        double lastResult = 0;
         while (true) {
             long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
             if (timeSpent > MAX_TIME) {
@@ -114,11 +119,21 @@ public class ImageTest {
             }
             if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
                 sectionIndex++;
-                GeneticImageModelE.MAX_SIZE += 25;
+                GeneticImageModelE.MAX_SIZE += 10;
                 System.out.println("Switch");
             }
             System.out.println("Time spent:" + timeSpent);
             generator.generation(10);
+            double result = geneticImage.eval(generator.getBest());
+            if(result < lastResult) {
+                GeneticImageModelE.MUTATION_COEF = 0.2;
+            }
+            else {
+                GeneticImageModelE.MUTATION_COEF += 0.1;
+                GeneticImageModelE.MUTATION_COEF = Math.min(GeneticImageModelE.MUTATION_COEF, 0.5);
+                System.out.println("Changed coef: " + GeneticImageModelE.MUTATION_COEF);
+            }
+            lastResult = result;
         }
         TriangleImageRGBDepth triangleImage = generator.getBest();
 

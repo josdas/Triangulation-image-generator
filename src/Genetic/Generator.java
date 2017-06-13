@@ -46,13 +46,13 @@ public abstract class Generator<T, E extends GeneticObject<T>> implements Geneti
 
     @Override
     public void generation(int n) {
+        System.out.println("Start #" + numberGeneration);
         for (int ind = 0; ind < n; numberGeneration++, ind++) {
-            System.out.println("Start #" + numberGeneration);
             objects = newGeneration(objects);
-            System.out.println("Finish generation #" + numberGeneration
-                    + " with result:" + option.eval(getBest())
-                    + " Size: " + objects.size());
         }
+        System.out.println("Finish generation #" + numberGeneration
+                + " with result:" + option.eval(getBest())
+                + " Size: " + objects.size());
     }
 
     @Override
