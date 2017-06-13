@@ -7,8 +7,8 @@ import java.util.Random;
 /**
  * Created by Stas on 11.06.2017.
  */
-public class TriangleColorDepth extends Triangle {
-    public TriangleColorDepth(Triangle b, double depth, double color) {
+public class TriangleColorWBDepth extends Triangle {
+    public TriangleColorWBDepth(Triangle b, double depth, double color) {
         super(b);
         this.depth = depth;
         this.color = color;
@@ -25,14 +25,14 @@ public class TriangleColorDepth extends Triangle {
     double depth;
     double color;
 
-    public TriangleColorDepth(TriangleColorDepth a) {
+    public TriangleColorWBDepth(TriangleColorWBDepth a) {
         super(a);
         this.color = a.color;
         this.depth = a.depth;
     }
 
-    public static TriangleColorDepth getRand(Random random) {
-        return new TriangleColorDepth(
+    public static TriangleColorWBDepth getRand(Random random) {
+        return new TriangleColorWBDepth(
                 Triangle.getRand(random),
                 random.nextDouble(),
                 random.nextDouble()

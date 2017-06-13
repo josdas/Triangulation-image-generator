@@ -17,10 +17,11 @@ import java.util.Random;
 // DONE RGB
 // DONE авто цвет
 // TODO нормальный интерфейс
-// TODO RGB TriangleImage
+// DONE RGB TriangleImage
+// TODO class rgb
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 15;
+    final static int MAX_TIME = 60 * 20;
     final static int MAX_TIME_FOR_ONE_COLOR = MAX_TIME / 3;
     final static int NUMBER_OF_SECTION = 7;
 
@@ -43,13 +44,17 @@ public class ImageTest {
     public static void drawTriangleImage(AbsTriangleImage[] triangleImage, int h, int w) {
         ImageWB[] imagesWB = new ImageWB[3];
         for (int i = 0; i < 3; i++) {
-            imagesWB[i] = triangleImage[i].getImage(h, w);
+            imagesWB[i] = triangleImage[i].getImageWB(h, w);
         }
         Picture.Image resultImage = new Picture.Image(imagesWB);
         draw(resultImage.getImage());
     }
 
-    public static void main(String[] args) {
+    public static void drawTriangleImage(AbsTriangleImage triangleImage, int h, int w) {
+        draw(triangleImage.getImage(h, w).getImage());
+    }
+
+    public static void TestD() {
         BufferedImage imageFile = getImageFromFile();
 
         Picture.Image image = new Picture.Image(imageFile, 0.3);
@@ -63,14 +68,14 @@ public class ImageTest {
             Generator<TriangleImageDepth, GeneticImageModelD> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
             long startTime = System.currentTimeMillis();
             int sectionIndex = 0;
-            while (true) {
+            if(i == 0) while (true) {
                 long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
                 if (timeSpent > MAX_TIME_FOR_ONE_COLOR) {
                     break;
                 }
                 if (timeSpent > MAX_TIME_FOR_ONE_COLOR / NUMBER_OF_SECTION * sectionIndex) {
                     sectionIndex++;
-                    GeneticImageModelC.MAX_SIZE += 25;
+                    GeneticImageModelD.MAX_SIZE += 25;
                     System.out.println("Switch");
                 }
                 System.out.println("Time spent:" + timeSpent);
@@ -83,6 +88,37 @@ public class ImageTest {
         for (int i = 0; i < 3; i++) {
             System.out.println("The best with color " + i + " has result: " + results[i]);
         }
+
+        assert imageFile != null;
+        drawTriangleImage(triangleImage, imageFile.getWidth(), imageFile.getHeight());
+        drawTriangleImage(triangleImage, image.getW(), image.getH());
+        draw(image.getImage());
+        draw(imageFile);
+    }
+
+    public static void main(String[] args) {
+        BufferedImage imageFile = getImageFromFile();
+        Picture.Image image = new Picture.Image(imageFile, 0.3);
+
+        GeneticImageModelE geneticImage = new GeneticImageModelE(image);
+        Generator<TriangleImageRGBDepth, GeneticImageModelE> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
+        long startTime = System.currentTimeMillis();
+        int sectionIndex = 0;
+        while (true) {
+            long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
+            if (timeSpent > MAX_TIME) {
+                break;
+            }
+            if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
+                sectionIndex++;
+                GeneticImageModelE.MAX_SIZE += 25;
+                System.out.println("Switch");
+            }
+            System.out.println("Time spent:" + timeSpent);
+            generator.generation(10);
+        }
+        TriangleImageRGBDepth triangleImage = generator.getBest();
+
 
         assert imageFile != null;
         drawTriangleImage(triangleImage, imageFile.getWidth(), imageFile.getHeight());
