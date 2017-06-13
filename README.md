@@ -15,3 +15,7 @@ Results after сhanges the mode of generation and some global consts:
 Added RGB mode:
 
 ![4](https://github.com/josdas/Triangulation-image-generator/blob/master/screen/screen_6.png)
+
+Added new RGB mode:
+
+![4](https://github.com/josdas/Triangulation-image-generator/blob/master/screen/screen_7.png)
