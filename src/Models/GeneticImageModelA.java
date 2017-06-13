@@ -1,3 +1,5 @@
+package Models;
+
 import Genetic.GeneticObject;
 import Geometry.Point;
 import Geometry.Triangle;

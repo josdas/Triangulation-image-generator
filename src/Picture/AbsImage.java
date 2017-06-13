@@ -64,9 +64,11 @@ public abstract class AbsImage {
             for (int j = 0; j < a.w; j++) {
                 int[] f = a.get_colors(i, j);
                 int[] s = b.get_colors(i, j);
+                double temp = 0;
                 for (int k = 0; k < 3; k++) {
-                    result += Math.pow(Math.abs(f[k] - s[k]), 2) / 3;
+                    temp += Math.pow(Math.abs(f[k] - s[k]), 2);
                 }
+                result += temp;
             }
         }
         return result / a.h / a.w;

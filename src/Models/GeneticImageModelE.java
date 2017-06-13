@@ -1,3 +1,5 @@
+package Models;
+
 import Genetic.GeneticObject;
 import Geometry.Point;
 import Picture.*;
@@ -122,10 +124,10 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
     @Override
     public TriangleImageRGBDepth mutation(TriangleImageRGBDepth obj) {
         ArrayList<TriangleColorRGBDepth> triangles = new ArrayList<>();
-        int type = random.nextInt(3);
+        int type = random.nextInt(4);
 
         if (type == 3 && random.nextDouble() > 0.3) {
-            type = random.nextInt(2);
+            type = random.nextInt(3);
         }
 
         if (obj.size() == 0 || type == 0) {
@@ -172,7 +174,7 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
                 }
                 if (id >= 0) {
                     int[] temp = image.get_colors(i, j);
-                    for (int k = 0; i < 3; i++) {
+                    for (int k = 0; k < 3; k++) {
                         sumColor[id][k] += temp[k] / 255.0;
                     }
                     numberPixels[id]++;
@@ -197,14 +199,15 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
             return evalStore.get(obj.getNumber());
         }
         double s = 0;
-        double result = ImageWB.distance(
-                obj.getImage(image.getH(), image.getW()),
+        Image tempImage = obj.getImage(image.getH(), image.getW());
+        double result = AbsImage.distance(
+                tempImage,
                 image
         );
         for (int i = 0; i < obj.size(); i++) {
             double t = obj.getTriangle(i).area();
             if (t < 0.003) {
-                result += 10;
+                result += 1;
             }
             s += t;
         }
@@ -235,33 +238,6 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
 
     @Override
     public void clean(TriangleImageRGBDepth a) {
-//        final int h = image.getH();
-//        final int w = image.getW();
-//
-//        ArrayList<TriangleColorWBDepth> triangles = a.getTriangles();
-//        boolean[] good = new boolean[triangles.size()];
-//        for (int i = 0; i < h; i++) {
-//            for (int j = 0; j < w; j++) {
-//                int id = -1;
-//                for (int k = 0; k < triangles.size(); k++) {
-//                    Point temp = new Point((double)i / h, (double)j / w);
-//                    double depth = Double.NEGATIVE_INFINITY;
-//                    if (triangles.get(k).inside(temp)) {
-//                        if (depth < triangles.get(k).getDepth()) {
-//                            id = k;
-//                        }
-//                    }
-//                }
-//                if (id >= 0) {
-//                    good[id] = true;
-//                }
-//            }
-//        }
-//        for (int i = a.size() - 1; i >= 0; i--) {
-//            if(!good[i]) {
-//                triangles.remove(i);
-//            }
-//        }
     }
 
     @Override

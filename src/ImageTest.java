@@ -1,5 +1,7 @@
 import Genetic.Generator;
 import Genetic.GeneratorImage;
+import Models.GeneticImageModelD;
+import Models.GeneticImageModelE;
 import Picture.*;
 
 import javax.imageio.ImageIO;
@@ -19,9 +21,10 @@ import java.util.Random;
 // TODO нормальный интерфейс
 // DONE RGB TriangleImage
 // TODO class rgb
+// TODO нормальная иерархия в GeneticImageModel
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 20;
+    final static int MAX_TIME = 60 * 2;
     final static int MAX_TIME_FOR_ONE_COLOR = MAX_TIME / 3;
     final static int NUMBER_OF_SECTION = 7;
 
