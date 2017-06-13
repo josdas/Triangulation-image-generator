@@ -2,7 +2,10 @@ package Models;
 
 import Genetic.GeneticObject;
 import Geometry.Point;
-import Picture.*;
+import Picture.AbsImage;
+import Picture.Image;
+import Picture.TriangleColorRGBDepth;
+import Picture.TriangleImageRGBDepth;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,8 +16,8 @@ import java.util.TreeMap;
  * Created by Stas on 06.06.2017.
  */
 public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> {
-    public static int MAX_SIZE = 30;
-    static final int MUTATION_SIZE = 7;
+    public static int MAX_SIZE = 20;
+    static final int MUTATION_SIZE = 10;
     public static double MUTATION_COEF = 0.2;
 
     Random random;
@@ -202,7 +205,7 @@ public class GeneticImageModelE implements GeneticObject<TriangleImageRGBDepth> 
         );
         for (int i = 0; i < obj.size(); i++) {
             double t = obj.getTriangle(i).area();
-            if (t < 0.003) {
+            if (t < 0.002) {
                 result += 20;
             }
             s += t;
