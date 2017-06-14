@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="209304fc-cf77-4f56-97bb-28540a620b54" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Triangulation-image-generator/test.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Triangulation-image-generator/test.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Triangulation-image-generator/test_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Triangulation-image-generator/test_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Triangulation-image-generator/test_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test_3.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ImageTest.java" afterPath="$PROJECT_DIR$/src/ImageTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Models/GeneticImageModelD.java" afterPath="$PROJECT_DIR$/src/Models/GeneticImageModelD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Models/GeneticImageModelE.java" afterPath="$PROJECT_DIR$/src/Models/GeneticImageModelE.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Models/GeneticImageModelF.java" afterPath="$PROJECT_DIR$/src/Models/GeneticImageModelF.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Models/GeneticImageModelG.java" afterPath="$PROJECT_DIR$/src/Models/GeneticImageModelG.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Models/ImageModel.java" afterPath="$PROJECT_DIR$/src/Models/ImageModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Picture/AbsImage.java" afterPath="$PROJECT_DIR$/src/Picture/AbsImage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Picture/ImageRGB.java" afterPath="$PROJECT_DIR$/src/Picture/ImageRGB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Picture/ImageWB.java" afterPath="$PROJECT_DIR$/src/Picture/ImageWB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Picture/Triangular/RGB/TrianImgRGBTrans.java" afterPath="$PROJECT_DIR$/src/Picture/Triangular/RGB/TrianImgRGBTrans.java" />
-    </list>
+    <list default="true" id="209304fc-cf77-4f56-97bb-28540a620b54" name="Default" comment="" />
     <ignored path="Triangulation-image-generator.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -44,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="ImageTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ImageTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ImageTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.47504026">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#draw#0;class#ImageTest#0" expanded="false" />
@@ -151,11 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GeneticImageModelF.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GeneticImageModelF.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Models/GeneticImageModelF.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3188406">
-              <caret line="17" column="24" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="48" column="28" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -1140,14 +1118,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ImageTest.java">
+    <entry file="file://$PROJECT_DIR$/src/Models/GeneticImageModelF.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#draw#0;class#ImageTest#0" expanded="false" />
-          </folding>
+          <caret line="48" column="28" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1161,11 +1136,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/GeneticImageModelF.java">
+    <entry file="file://$PROJECT_DIR$/src/ImageTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3188406">
-          <caret line="17" column="24" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="24" />
-          <folding />
+        <state vertical-scroll-proportion="0.47504026">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#draw#0;class#ImageTest#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
