@@ -2,13 +2,12 @@ package Models;
 
 import Genetic.GeneticObject;
 import Geometry.Point;
-import Picture.*;
-import Picture.Triangular.Triangle.TrianColorRGBDepthTrans;
+import Picture.AbsImage;
+import Picture.ImageRGB;
 import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
+import Picture.Triangular.Triangle.TrianColorRGBDepthTrans;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.TreeMap;
 
 
 /**
@@ -16,9 +15,7 @@ import java.util.TreeMap;
  */
 public class GeneticImageModelF extends ImageModel implements GeneticObject<TrianImgRGBDepthTrans> {
     public GeneticImageModelF(AbsImage image) {
-        this.image = image;
-        this.random = new Random();
-        this.evalStore = new TreeMap<>();
+        super(image);
     }
 
     private void mutationFirst(

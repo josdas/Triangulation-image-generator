@@ -8,45 +8,20 @@ import Picture.Triangular.Triangle.TrianColorWBDepth;
 import Picture.Triangular.WB.TrianImgDepth;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.TreeMap;
 
 
 /**
  * Created by Stas on 06.06.2017.
  */
-public class GeneticImageModelD implements GeneticObject<TrianImgDepth> {
-    public int MAX_SIZE = 30;
-    static final int MUTATION_SIZE = 5;
-    final double MUTATION_COEF = 0.3;
-
-    Random random;
-    AbsImage image;
-    private TreeMap<Integer, Double> evalStore;
-
+public class GeneticImageModelD extends ImageModel implements GeneticObject<TrianImgDepth> {
     public GeneticImageModelD(AbsImage image) {
-        this.image = image;
-        this.random = new Random();
-        this.evalStore = new TreeMap<>();
+        super(image);
     }
 
     private double norm(double t) {
         t = Math.min(t, 1);
         t = Math.max(t, 0);
         return t;
-    }
-
-    private Point smallChange(Point a, double t) {
-        Point c = Point.mul(Point.getRand(random), t);
-        c = Point.add(a, c);
-        c.x = norm(c.x);
-        c.y = norm(c.y);
-        return c;
-    }
-
-    private double smallChange(double a, double t) {
-        double c = random.nextDouble() * t;
-        return norm(c + a);
     }
 
     private void mutationFirst(

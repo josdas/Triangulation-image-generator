@@ -25,15 +25,14 @@ import java.util.Random;
 // TODO нормальный интерфейс
 // DONE RGB TriangleImage
 // TODO class rgb
-// TODO нормальная иерархия в GeneticImageModel
-// TODO отдельный класс для Random и вспомогательных функций
+// DONE нормальная иерархия в GeneticImageModel
 // TODO temp файлы и сохренние результата в .txt
 // DONE адаптивный коф. мутации
 // TODO метрика через контур
 // DONE глубина + прозрачность
 
 public class ImageTest {
-    final static int MAX_TIME = 60;
+    final static int MAX_TIME = 60 * 60 * 1;
     final static int NUMBER_OF_SECTION = 20;
 
     static Random random = new Random();
@@ -108,7 +107,7 @@ public class ImageTest {
             }
             if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
                 sectionIndex++;
-                geneticImage.MAX_SIZE += 10;
+                geneticImage.MAX_SIZE += 5;
                 System.out.println("Switch");
             }
             System.out.println("Time spent:" + timeSpent);
@@ -117,7 +116,7 @@ public class ImageTest {
             if (result < lastResult - 1) {
                 geneticImage.MUTATION_COEF = 0.3;
             } else {
-                geneticImage.MUTATION_COEF += 0.1;
+                geneticImage.MUTATION_COEF += 0.03;
                 geneticImage.MUTATION_COEF = Math.min(geneticImage.MUTATION_COEF, 0.6);
                 System.out.println("Changed coef: " + geneticImage.MUTATION_COEF);
             }

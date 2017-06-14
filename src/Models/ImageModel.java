@@ -3,20 +3,26 @@ package Models;
 import Geometry.Point;
 import Picture.AbsImage;
 
+import java.util.HashMap;
 import java.util.Random;
-import java.util.TreeMap;
 
 /**
  * Created by Stas on 14.06.2017.
  */
 public class ImageModel {
     public int MAX_SIZE = 50;
-    static final int MUTATION_SIZE = 10;
+    public int MUTATION_SIZE = 10;
     public double MUTATION_COEF = 0.2;
 
     Random random;
     AbsImage image;
-    TreeMap<Integer, Double> evalStore;
+    HashMap<Integer, Double> evalStore;
+
+    public ImageModel(AbsImage image) {
+        random = new Random();
+        this.image = image;
+        evalStore = new HashMap<>();
+    }
 
     private double norm(double t) {
         t = Math.min(t, 1);

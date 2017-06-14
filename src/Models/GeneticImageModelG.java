@@ -4,12 +4,10 @@ import Genetic.GeneticObject;
 import Geometry.Point;
 import Picture.AbsImage;
 import Picture.ImageRGB;
-import Picture.Triangular.Triangle.TrianColorRGBDepth;
 import Picture.Triangular.RGB.TrianImgRGBTrans;
+import Picture.Triangular.Triangle.TrianColorRGBDepth;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.TreeMap;
 
 
 /**
@@ -17,9 +15,7 @@ import java.util.TreeMap;
  */
 public class GeneticImageModelG extends ImageModel implements GeneticObject<TrianImgRGBTrans> {
     public GeneticImageModelG(AbsImage image) {
-        this.image = image;
-        this.random = new Random();
-        this.evalStore = new TreeMap<>();
+        super(image);
     }
 
     private void mutationFirst(
@@ -88,7 +84,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
         ArrayList<TrianColorRGBDepth> triangles = new ArrayList<>();
         int type = random.nextInt(3);
 
-        if (random.nextDouble() < 0.7) {
+        if (random.nextDouble() < 0.5) {
             type = 3;
         }
 
@@ -138,7 +134,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
                 }
             }
         }
-        double prob = Math.min(random.nextDouble(), random.nextDouble());
+        double prob = random.nextDouble();
         for (int i = 0; i < a.size(); i++) {
             if (random.nextDouble() < prob && numberPixels[i] > 0) {
                 double[] rgb = new double[3];
@@ -155,19 +151,19 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
         if (evalStore.containsKey(obj.getNumber())) {
             return evalStore.get(obj.getNumber());
         }
-        double s = 0;
         ImageRGB tempImage = obj.getImage(image.getH(), image.getW());
         double result = AbsImage.distance(
                 tempImage,
                 image
         );
         for (int i = 0; i < obj.size(); i++) {
-            double t = obj.getTriangle(i).area();
-            if (t < 0.002) {
+            double area = obj.getTriangle(i).area();
+            if (area < 0.002) {
                 result += 20;
             }
-            s += t;
         }
+        result -= obj.size() * 5;
+
         evalStore.put(obj.getNumber(), result);
         return result;
     }
@@ -196,7 +192,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
     @Override
     public TrianImgRGBTrans genRand() {
         ArrayList<TrianColorRGBDepth> triangles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             triangles.add(TrianColorRGBDepth.getRand(random));
         }
         return new TrianImgRGBTrans(triangles);
