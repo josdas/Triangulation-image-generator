@@ -32,7 +32,7 @@ public abstract class AbsImage {
 
     public abstract void set(int x, int y, int[] rgb);
 
-    public abstract int[] get_colors(int x, int y);
+    public abstract int[] getColor(int x, int y);
 
     public int getH() {
         return h;
@@ -46,7 +46,7 @@ public abstract class AbsImage {
         int[] pixels = new int[w * h];
         for (int j = 0; j < h; j++) {
             for (int i = 0; i < w; i++) {
-                int rgb[] = get_colors(j, i);
+                int rgb[] = getColor(j, i);
                 pixels[j * w + i] = new Color(rgb[0], rgb[1], rgb[2]).getRGB();
             }
         }
@@ -56,14 +56,39 @@ public abstract class AbsImage {
         return pixelImage;
     }
 
+    public ImageWB toCircuit() {
+        ImageWB result = new ImageWB(h, w);
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                int[] rgb = getColor(i, j);
+                double temp = 0;
+                for (int dx = -2; dx <= 2; dx++) {
+                    for (int dy = -2; dy <= 2; dy++) {
+                        int x = i + dx;
+                        int y = j + dy;
+                        if (0 <= x && x < h && 0 <= y && y < w) {
+                            int[] rgbn = getColor(x, y);
+                            double d = 0;
+                            for (int k = 0; k < 3; k++) {
+                                d += Math.abs(rgbn[k] - rgb[k]);
+                            }
+                            temp = Math.max(temp, d);
+                        }
+                    }
+                }
+                result.set(i, j, temp / 3);
+            }
+        }
+        return result;
+    }
 
     public static double distance(AbsImage a, AbsImage b) {
         assert a.h == b.h && a.w == b.w;
         double result = 0;
         for (int i = 0; i < a.h; i++) {
             for (int j = 0; j < a.w; j++) {
-                int[] f = a.get_colors(i, j);
-                int[] s = b.get_colors(i, j);
+                int[] f = a.getColor(i, j);
+                int[] s = b.getColor(i, j);
                 double temp = 0;
                 double br = 0.2125 * Math.abs(f[0] - s[0])
                           + 0.7154 * Math.abs(f[1] - s[1])

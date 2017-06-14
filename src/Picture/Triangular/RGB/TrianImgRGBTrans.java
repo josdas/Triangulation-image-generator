@@ -27,7 +27,7 @@ public class TrianImgRGBTrans extends AbsTriangleImage {
             if (triangle.inside(point)) {
                 double[] temp = triangle.getColor();
                 for (int k = 0; k < 3; k++) {
-                    result[k] += temp[k] * 255 / 5;
+                    result[k] += temp[k] * 255 / 2;
                 }
             }
         }

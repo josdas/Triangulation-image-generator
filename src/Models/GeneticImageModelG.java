@@ -84,7 +84,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
         ArrayList<TrianColorRGBDepth> triangles = new ArrayList<>();
         int type = random.nextInt(3);
 
-        if (random.nextDouble() < 0.5) {
+        if (random.nextDouble() < 2) {
             type = 3;
         }
 
@@ -125,9 +125,9 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
                 for (int k = 0; k < triangles.size(); k++) {
                     final TrianColorRGBDepth triangle = triangles.get(k);
                     if (triangle.inside(point)) {
-                        double[] temp = triangle.getColor();
+                        int[] temp = image.getColor(i, j);
                         for (int l = 0; l < 3; l++) {
-                            sumColor[k][l] += temp[l] / 5.0;
+                            sumColor[k][l] += temp[l] / 255.0;
                         }
                         numberPixels[k]++;
                     }
@@ -135,6 +135,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
             }
         }
         double prob = random.nextDouble();
+        prob = 2;
         for (int i = 0; i < a.size(); i++) {
             if (random.nextDouble() < prob && numberPixels[i] > 0) {
                 double[] rgb = new double[3];
@@ -158,11 +159,10 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
         );
         for (int i = 0; i < obj.size(); i++) {
             double area = obj.getTriangle(i).area();
-            if (area < 0.002) {
+            if (area < 0.005) {
                 result += 20;
             }
         }
-        result -= obj.size() * 5;
 
         evalStore.put(obj.getNumber(), result);
         return result;
@@ -192,7 +192,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
     @Override
     public TrianImgRGBTrans genRand() {
         ArrayList<TrianColorRGBDepth> triangles = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             triangles.add(TrianColorRGBDepth.getRand(random));
         }
         return new TrianImgRGBTrans(triangles);

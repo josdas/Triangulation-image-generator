@@ -1,8 +1,11 @@
 import Genetic.Generator;
 import Genetic.GeneratorImage;
 import Genetic.GeneticObject;
-import Models.*;
-import Picture.*;
+import Models.GeneticImageModelE;
+import Models.GeneticImageModelF;
+import Models.GeneticImageModelG;
+import Models.ImageModel;
+import Picture.ImageRGB;
 import Picture.Triangular.AbsTriangleImage;
 import Picture.Triangular.RGB.TrianImgRGBDepth;
 import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
@@ -11,11 +14,9 @@ import Picture.Triangular.RGB.TrianImgRGBTrans;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 // DONE сделай очистку "лишних" треугольников
 // TODO сделай нормальный порядок рендера (отказаться от глубины)
@@ -28,14 +29,12 @@ import java.util.Random;
 // DONE нормальная иерархия в GeneticImageModel
 // TODO temp файлы и сохренние результата в .txt
 // DONE адаптивный коф. мутации
-// TODO метрика через контур
+// DONE метрика через контур
 // DONE глубина + прозрачность
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 60 * 1;
+    final static int MAX_TIME = 60 * 60 * 10;
     final static int NUMBER_OF_SECTION = 20;
-
-    static Random random = new Random();
 
     static void draw(Image image) {
         ImageFrame frame = new ImageFrame(image);
@@ -44,20 +43,11 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("src/test_3.jpg"));
+            return ImageIO.read(new File("test_3.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void drawTriangleImage(AbsTriangleImage[] triangleImage, int h, int w) {
-        ImageWB[] imagesWB = new ImageWB[3];
-        for (int i = 0; i < 3; i++) {
-            imagesWB[i] = triangleImage[i].getImageWB(h, w);
-        }
-        ImageRGB resultImage = new ImageRGB(imagesWB);
-        draw(resultImage.getImage());
     }
 
     public static void drawTriangleImage(AbsTriangleImage triangleImage, int h, int w) {
@@ -77,7 +67,7 @@ public class ImageTest {
                              ImageRGB image) {
         GeneticImageModelF geneticImage = new GeneticImageModelF(image);
         Generator<TrianImgRGBDepthTrans, GeneticImageModelF> generator
-                = new GeneratorImage<>(geneticImage, 10, 20, 10);
+                = new GeneratorImage<>(geneticImage, 10, 15, 15);
 
         AbsTest(geneticImage, generator, realImage, image);
     }
@@ -128,17 +118,17 @@ public class ImageTest {
 
         assert realImage != null;
         drawTriangleImage(triangleImage, realImage.getW(), realImage.getH());
-        drawTriangleImage(triangleImage, image.getW(), image.getH());
-        draw(image.getImage());
+        draw(triangleImage.getImage(realImage.getW(), realImage.getH()).toCircuit().getImage());
         draw(realImage.getImage());
+        draw(realImage.toCircuit().getImage());
     }
 
     public static void main(String[] args) {
         BufferedImage ImageFile = getImageFromFile();
-        ImageRGB image = new ImageRGB(ImageFile, 0.3);
+        ImageRGB image = new ImageRGB(ImageFile, 0.2);
         ImageRGB realImage = new ImageRGB(ImageFile, 1);
 
-        TestG(realImage, image);
+        TestF(realImage, image);
     }
 
 }

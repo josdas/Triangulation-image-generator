@@ -4,6 +4,7 @@ import Genetic.GeneticObject;
 import Geometry.Point;
 import Picture.AbsImage;
 import Picture.ImageRGB;
+import Picture.ImageWB;
 import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
 import Picture.Triangular.Triangle.TrianColorRGBDepthTrans;
 
@@ -14,8 +15,11 @@ import java.util.ArrayList;
  * Created by Stas on 06.06.2017.
  */
 public class GeneticImageModelF extends ImageModel implements GeneticObject<TrianImgRGBDepthTrans> {
+    ImageWB imageCircuit;
+
     public GeneticImageModelF(AbsImage image) {
         super(image);
+        imageCircuit = image.toCircuit();
     }
 
     private void mutationFirst(
@@ -100,7 +104,7 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
         ArrayList<TrianColorRGBDepthTrans> triangles = new ArrayList<>();
         int type = random.nextInt(3);
 
-        if (random.nextDouble() < 0.7) {
+        if (random.nextDouble() < 0.3) {
             type = 3;
         }
 
@@ -133,7 +137,7 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
         final int w = image.getW();
         ArrayList<TrianColorRGBDepthTrans> triangles = a.getTriangles();
         double[][] sumColor = new double[triangles.size()][3];
-        int[] numberPixels = new int[triangles.size()];
+        double[] sumMass = new double[triangles.size()];
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
                 Point point = new Point((double) i / h, (double) j / w);
@@ -158,22 +162,23 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
                 double alpha = 1;
                 for (int ind : goodTriangles) {
                     final TrianColorRGBDepthTrans triangle = triangles.get(ind);
-                    double[] temp = triangle.getColor();
+                    int[] temp = image.getColor(i, j);
                     double k = alpha * triangle.getTrans();
                     alpha *= 1 - triangle.getTrans();
                     for (int l = 0; l < 3; l++) {
-                        sumColor[ind][l] += k * temp[l];
+                        sumColor[ind][l] += k * temp[l] / 255.0;
                     }
-                    numberPixels[ind]++;
+                    sumMass[ind] += k;
                 }
             }
         }
-        double prob = Math.min(random.nextDouble(), random.nextDouble());
+        double prob = Math.max(random.nextDouble(), random.nextDouble());
+        prob = 2;
         for (int i = 0; i < a.size(); i++) {
-            if (random.nextDouble() < prob && numberPixels[i] > 0) {
+            if (random.nextDouble() < prob && sumMass[i] > 0) {
                 double[] rgb = new double[3];
                 for (int k = 0; k < 3; k++) {
-                    rgb[k] = sumColor[i][k] / numberPixels[i];
+                    rgb[k] = sumColor[i][k] / sumMass[i];
                 }
                 triangles.get(i).setColor(rgb);
             }
@@ -185,18 +190,20 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
         if (evalStore.containsKey(obj.getNumber())) {
             return evalStore.get(obj.getNumber());
         }
-        double s = 0;
         ImageRGB tempImage = obj.getImage(image.getH(), image.getW());
         double result = AbsImage.distance(
                 tempImage,
                 image
         );
+        result += AbsImage.distance(
+                tempImage.toCircuit(),
+                imageCircuit
+        );
         for (int i = 0; i < obj.size(); i++) {
-            double t = obj.getTriangle(i).area();
-            if (t < 0.002) {
+            double area = obj.getTriangle(i).area();
+            if (area < 0.002) {
                 result += 20;
             }
-            s += t;
         }
         evalStore.put(obj.getNumber(), result);
         return result;
@@ -212,7 +219,7 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
             }
         }
         for (int i = 0; i < b.size(); i++) {
-            if (random.nextDouble() >= k) {
+            if (random.nextDouble() > k) {
                 triangles.add(new TrianColorRGBDepthTrans(b.getTriangle(i)));
             }
         }

@@ -143,7 +143,7 @@ public class GeneticImageModelD extends ImageModel implements GeneticObject<Tria
                     }
                 }
                 if (id >= 0) {
-                    sumColor[id] += image.get_colors(i, j)[0] / 255.0;
+                    sumColor[id] += image.getColor(i, j)[0] / 255.0;
                     numberPixels[id]++;
                 }
             }

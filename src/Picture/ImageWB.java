@@ -35,7 +35,7 @@ public class ImageWB extends AbsImage {
     }
 
     @Override
-    public int[] get_colors(int x, int y) {
+    public int[] getColor(int x, int y) {
         int[] rgb = new int[3];
         for (int i = 0; i < 3; i++) {
             rgb[i] = (int) data[x][y];

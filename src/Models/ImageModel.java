@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by Stas on 14.06.2017.
  */
 public class ImageModel {
-    public int MAX_SIZE = 50;
+    public int MAX_SIZE = 20;
     public int MUTATION_SIZE = 10;
     public double MUTATION_COEF = 0.2;
 
