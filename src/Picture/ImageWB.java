@@ -30,7 +30,7 @@ public class ImageWB extends AbsImage {
     }
 
     @Override
-    void set(int x, int y, int[] rgb) {
+    public void set(int x, int y, int[] rgb) {
         data[x][y] = (rgb[0] + rgb[1] + rgb[2]) / 3.0;
     }
 

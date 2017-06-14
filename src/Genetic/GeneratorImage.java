@@ -60,10 +60,6 @@ public class GeneratorImage<T, E extends GeneticObject<T>> extends Generator<T, 
             }
         }
 
-        for (T aSelection : selection) {
-            option.clean(aSelection);
-        }
-
         return selection;
     }
 }

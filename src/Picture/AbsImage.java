@@ -30,7 +30,7 @@ public abstract class AbsImage {
         }
     }
 
-    abstract void set(int x, int y, int[] rgb);
+    public abstract void set(int x, int y, int[] rgb);
 
     public abstract int[] get_colors(int x, int y);
 

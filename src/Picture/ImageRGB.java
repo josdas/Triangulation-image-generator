@@ -5,15 +5,15 @@ import java.awt.image.BufferedImage;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class Image extends AbsImage {
+public class ImageRGB extends AbsImage {
     double[][][] data;
 
-    public Image(int h, int w) {
+    public ImageRGB(int h, int w) {
         super(h, w);
         data = new double[h][w][3];
     }
 
-    public Image(ImageWB[] imagesWB) {
+    public ImageRGB(ImageWB[] imagesWB) {
         super(imagesWB[0].getH(), imagesWB[0].getW());
         assert imagesWB[0].getH() == imagesWB[1].getH()
                 && imagesWB[0].getH() == imagesWB[2].getH()
@@ -44,7 +44,7 @@ public class Image extends AbsImage {
         return imagesWB;
     }
 
-    public Image(BufferedImage image, double t) {
+    public ImageRGB(BufferedImage image, double t) {
         super((int) (image.getHeight() * t), (int) (image.getWidth() * t));
         data = new double[h][w][3];
         build(image, t);
@@ -65,7 +65,7 @@ public class Image extends AbsImage {
     }
 
     @Override
-    void set(int x, int y, int[] rgb) {
+    public void set(int x, int y, int[] rgb) {
         for (int i = 0; i < 3; i++) {
             data[x][y][i] = (double) rgb[i];
         }

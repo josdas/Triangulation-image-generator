@@ -12,6 +12,4 @@ public interface GeneticObject<T> {
     T crossover(T a, T b);
 
     T genRand();
-
-    void clean(T a);
 }

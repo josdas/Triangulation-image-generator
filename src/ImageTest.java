@@ -1,8 +1,12 @@
 import Genetic.Generator;
 import Genetic.GeneratorImage;
-import Models.GeneticImageModelD;
-import Models.GeneticImageModelE;
+import Genetic.GeneticObject;
+import Models.*;
 import Picture.*;
+import Picture.Triangular.AbsTriangleImage;
+import Picture.Triangular.RGB.TrianImgRGBDepth;
+import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
+import Picture.Triangular.RGB.TrianImgRGBTrans;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,13 +28,12 @@ import java.util.Random;
 // TODO нормальная иерархия в GeneticImageModel
 // TODO отдельный класс для Random и вспомогательных функций
 // TODO temp файлы и сохренние результата в .txt
-// TODO адаптивный коф. мутации
+// DONE адаптивный коф. мутации
 // TODO метрика через контур
-// TODO глубина + прозрачность
+// DONE глубина + прозрачность
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 60 * 2;
-    final static int MAX_TIME_FOR_ONE_COLOR = MAX_TIME / 3;
+    final static int MAX_TIME = 60;
     final static int NUMBER_OF_SECTION = 20;
 
     static Random random = new Random();
@@ -54,7 +57,7 @@ public class ImageTest {
         for (int i = 0; i < 3; i++) {
             imagesWB[i] = triangleImage[i].getImageWB(h, w);
         }
-        Picture.Image resultImage = new Picture.Image(imagesWB);
+        ImageRGB resultImage = new ImageRGB(imagesWB);
         draw(resultImage.getImage());
     }
 
@@ -62,54 +65,39 @@ public class ImageTest {
         draw(triangleImage.getImage(h, w).getImage());
     }
 
-    public static void TestD() {
-        BufferedImage imageFile = getImageFromFile();
+    public static void TestE(ImageRGB realImage,
+                             ImageRGB image) {
+        GeneticImageModelE geneticImage = new GeneticImageModelE(image);
+        Generator<TrianImgRGBDepth, GeneticImageModelE> generator
+                = new GeneratorImage<>(geneticImage, 10, 20, 10);
 
-        Picture.Image image = new Picture.Image(imageFile, 0.3);
-
-        ImageWB[] imagesWB = image.toImagesWB();
-        TriangleImageDepth[] triangleImage = new TriangleImageDepth[3];
-        double[] results = new double[3];
-
-        for (int i = 0; i < 3; i++) {
-            GeneticImageModelD geneticImage = new GeneticImageModelD(imagesWB[i]);
-            Generator<TriangleImageDepth, GeneticImageModelD> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
-            long startTime = System.currentTimeMillis();
-            int sectionIndex = 0;
-            if(i == 0) while (true) {
-                long timeSpent = (System.currentTimeMillis() - startTime) / 1000;
-                if (timeSpent > MAX_TIME_FOR_ONE_COLOR) {
-                    break;
-                }
-                if (timeSpent > MAX_TIME_FOR_ONE_COLOR / NUMBER_OF_SECTION * sectionIndex) {
-                    sectionIndex++;
-                    GeneticImageModelD.MAX_SIZE += 25;
-                    System.out.println("Switch");
-                }
-                System.out.println("Time spent:" + timeSpent);
-                generator.generation(10);
-            }
-            triangleImage[i] = generator.getBest();
-            results[i] = geneticImage.eval(triangleImage[i]);
-        }
-
-        for (int i = 0; i < 3; i++) {
-            System.out.println("The best with color " + i + " has result: " + results[i]);
-        }
-
-        assert imageFile != null;
-        drawTriangleImage(triangleImage, imageFile.getWidth(), imageFile.getHeight());
-        drawTriangleImage(triangleImage, image.getW(), image.getH());
-        draw(image.getImage());
-        draw(imageFile);
+        AbsTest(geneticImage, generator, realImage, image);
     }
 
-    public static void main(String[] args) {
-        BufferedImage imageFile = getImageFromFile();
-        Picture.Image image = new Picture.Image(imageFile, 0.3);
+    public static void TestF(ImageRGB realImage,
+                             ImageRGB image) {
+        GeneticImageModelF geneticImage = new GeneticImageModelF(image);
+        Generator<TrianImgRGBDepthTrans, GeneticImageModelF> generator
+                = new GeneratorImage<>(geneticImage, 10, 20, 10);
 
-        GeneticImageModelE geneticImage = new GeneticImageModelE(image);
-        Generator<TriangleImageRGBDepth, GeneticImageModelE> generator = new GeneratorImage<>(geneticImage, 10, 20, 10);
+        AbsTest(geneticImage, generator, realImage, image);
+    }
+
+    public static void TestG(ImageRGB realImage,
+                             ImageRGB image) {
+        GeneticImageModelG geneticImage = new GeneticImageModelG(image);
+        Generator<TrianImgRGBTrans, GeneticImageModelG> generator
+                = new GeneratorImage<>(geneticImage, 10, 20, 10);
+
+        AbsTest(geneticImage, generator, realImage, image);
+    }
+
+    public static <T extends AbsTriangleImage, S extends ImageModel & GeneticObject<T>> void AbsTest(
+            S geneticImage,
+            Generator<T, S> generator,
+            ImageRGB realImage,
+            ImageRGB image) {
+
         long startTime = System.currentTimeMillis();
         int sectionIndex = 0;
         double lastResult = 0;
@@ -120,32 +108,38 @@ public class ImageTest {
             }
             if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
                 sectionIndex++;
-                GeneticImageModelE.MAX_SIZE += 10;
+                geneticImage.MAX_SIZE += 10;
                 System.out.println("Switch");
             }
             System.out.println("Time spent:" + timeSpent);
             generator.generation(10);
-            TriangleImageRGBDepth best = generator.getBest();
-            double result = geneticImage.eval(best);
-            if(result < lastResult - 1) {
-                GeneticImageModelE.MUTATION_COEF = 0.3;
+            double result = geneticImage.eval(generator.getBest());
+            if (result < lastResult - 1) {
+                geneticImage.MUTATION_COEF = 0.3;
+            } else {
+                geneticImage.MUTATION_COEF += 0.1;
+                geneticImage.MUTATION_COEF = Math.min(geneticImage.MUTATION_COEF, 0.6);
+                System.out.println("Changed coef: " + geneticImage.MUTATION_COEF);
             }
-            else {
-                GeneticImageModelE.MUTATION_COEF += 0.1;
-                GeneticImageModelE.MUTATION_COEF = Math.min(GeneticImageModelE.MUTATION_COEF, 0.6);
-                System.out.println("Changed coef: " + GeneticImageModelE.MUTATION_COEF);
-            }
-            System.out.println("Size of the best: " + best.size());
+            System.out.println("Size of the best: " + generator.getBest().size());
             lastResult = result;
         }
-        TriangleImageRGBDepth triangleImage = generator.getBest();
+        AbsTriangleImage triangleImage = generator.getBest();
 
 
-        assert imageFile != null;
-        drawTriangleImage(triangleImage, imageFile.getWidth(), imageFile.getHeight());
+        assert realImage != null;
+        drawTriangleImage(triangleImage, realImage.getW(), realImage.getH());
         drawTriangleImage(triangleImage, image.getW(), image.getH());
         draw(image.getImage());
-        draw(imageFile);
+        draw(realImage.getImage());
+    }
+
+    public static void main(String[] args) {
+        BufferedImage ImageFile = getImageFromFile();
+        ImageRGB image = new ImageRGB(ImageFile, 0.3);
+        ImageRGB realImage = new ImageRGB(ImageFile, 1);
+
+        TestG(realImage, image);
     }
 
 }

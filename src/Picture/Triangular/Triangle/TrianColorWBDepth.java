@@ -1,4 +1,4 @@
-package Picture;
+package Picture.Triangular.Triangle;
 
 import Geometry.Triangle;
 
@@ -7,8 +7,8 @@ import java.util.Random;
 /**
  * Created by Stas on 11.06.2017.
  */
-public class TriangleColorRGBDepth extends Triangle {
-    public TriangleColorRGBDepth(Triangle b, double depth, double[] color) {
+public class TrianColorWBDepth extends Triangle {
+    public TrianColorWBDepth(Triangle b, double depth, double color) {
         super(b);
         this.depth = depth;
         this.color = color;
@@ -18,28 +18,24 @@ public class TriangleColorRGBDepth extends Triangle {
         return depth;
     }
 
-    public double[] getColor() {
+    public double getColor() {
         return color;
     }
 
     double depth;
-    double[] color;
+    double color;
 
-    public TriangleColorRGBDepth(TriangleColorRGBDepth a) {
+    public TrianColorWBDepth(TrianColorWBDepth a) {
         super(a);
         this.color = a.color;
         this.depth = a.depth;
     }
 
-    public static TriangleColorRGBDepth getRand(Random random) {
-        double[] rgb = new double[3];
-        for (int i = 0; i < 3; i++) {
-            rgb[i] = random.nextDouble();
-        }
-        return new TriangleColorRGBDepth(
+    public static TrianColorWBDepth getRand(Random random) {
+        return new TrianColorWBDepth(
                 Triangle.getRand(random),
                 random.nextDouble(),
-                rgb
+                random.nextDouble()
         );
     }
 
@@ -47,7 +43,7 @@ public class TriangleColorRGBDepth extends Triangle {
         this.depth = depth;
     }
 
-    public void setColor(double[] color) {
+    public void setColor(double color) {
         this.color = color;
     }
 }
