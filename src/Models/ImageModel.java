@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by Stas on 14.06.2017.
  */
 public class ImageModel {
-    public int MAX_SIZE = 20;
+    public int MAX_SIZE = 10;
     public int MUTATION_SIZE = 10;
     public double MUTATION_COEF = 0.2;
 
@@ -39,14 +39,14 @@ public class ImageModel {
     }
 
     protected double smallChange(double a, double t) {
-        double c = random.nextDouble() * t;
+        double c = random.nextDouble() * t / 2 - t / 2;
         return norm(c + a);
     }
 
     protected double[] smallChange(double[] a, double t) {
         double[] res = new double[a.length];
         for (int i = 0; i < a.length; i++) {
-            res[i] = norm(random.nextDouble() * t + a[i]);
+            res[i] = norm(random.nextDouble() * t / 2 - t / 2 + a[i]);
         }
         return res;
     }

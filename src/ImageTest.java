@@ -9,6 +9,7 @@ import Picture.ImageRGB;
 import Picture.Triangular.AbsTriangleImage;
 import Picture.Triangular.RGB.TrianImgRGBDepth;
 import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
+import Picture.Triangular.RGB.TrianImgRGBDepthTransOrdered;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,11 +19,11 @@ import java.io.File;
 import java.io.IOException;
 
 // DONE сделай очистку "лишних" треугольников
-// TODO сделай нормальный порядок рендера (отказаться от глубины)
+// DONE сделай нормальный порядок рендера (отказаться от глубины)
 // DONE нормальный код
 // DONE RGB
-// DONE авто цвет
-// TODO нормальный интерфейс
+// DONE авто цвет как мутация
+// TODO UI
 // DONE RGB TriangleImage
 // TODO class rgb
 // DONE нормальная иерархия в GeneticImageModel
@@ -77,7 +78,7 @@ public class ImageTest {
     public static void TestG(ImageRGB realImage,
                              ImageRGB image) {
         GeneticImageModelG geneticImage = new GeneticImageModelG(image);
-        Generator<TrianImgRGBDepthTrans, GeneticImageModelG> generator
+        Generator<TrianImgRGBDepthTransOrdered, GeneticImageModelG> generator
                 = new GeneratorImage<>(geneticImage, 10, 10, 10);
 
         AbsTest(geneticImage, generator, realImage, image);
@@ -106,7 +107,7 @@ public class ImageTest {
             generator.generation(10);
             double result = geneticImage.eval(generator.getBest());
             if (result < lastResult - 1) {
-                geneticImage.MUTATION_COEF = 0.3;
+                geneticImage.MUTATION_COEF = 0.2;
             } else {
                 geneticImage.MUTATION_COEF += 0.03;
                 geneticImage.MUTATION_COEF = Math.min(geneticImage.MUTATION_COEF, 0.6);
