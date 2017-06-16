@@ -44,6 +44,10 @@ public class Point {
         return new Point(a.x * t, a.y * t);
     }
 
+    public static Point div(Point a, double t) {
+        return new Point(a.x / t, a.y / t);
+    }
+
     public static Point center(Point a, Point b, double t) {
         return new Point(a.x * t + b.x * (1 - t), a.y * t + b.y * (1 - t));
     }

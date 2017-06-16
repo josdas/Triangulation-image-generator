@@ -83,9 +83,15 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
         for (int i = 0; i < obj.size(); i++) {
             TrianColorRGBDepthTrans triangle = new TrianColorRGBDepthTrans(obj.getTriangle(i));
             if (index[i]) {
-                triangle.a = smallChange(triangle.a, MUTATION_COEF);
-                triangle.b = smallChange(triangle.b, MUTATION_COEF);
-                triangle.c = smallChange(triangle.c, MUTATION_COEF);
+                if (random.nextBoolean()) {
+                    triangle.a = smallChange(triangle.a, MUTATION_COEF);
+                }
+                if (random.nextBoolean()) {
+                    triangle.b = smallChange(triangle.b, MUTATION_COEF);
+                }
+                if (random.nextBoolean()) {
+                    triangle.c = smallChange(triangle.c, MUTATION_COEF);
+                }
             }
             triangles.add(triangle);
         }
@@ -198,7 +204,7 @@ public class GeneticImageModelF extends ImageModel implements GeneticObject<Tria
         result += AbsImage.distance(
                 tempImage.toCircuit(),
                 imageCircuit
-        );
+        ) * 0.5;
         for (int i = 0; i < obj.size(); i++) {
             double area = obj.getTriangle(i).area();
             if (area < 0.002) {

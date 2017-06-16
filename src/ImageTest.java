@@ -9,7 +9,6 @@ import Picture.ImageRGB;
 import Picture.Triangular.AbsTriangleImage;
 import Picture.Triangular.RGB.TrianImgRGBDepth;
 import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
-import Picture.Triangular.RGB.TrianImgRGBTrans;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,10 +30,12 @@ import java.io.IOException;
 // DONE адаптивный коф. мутации
 // DONE метрика через контур
 // DONE глубина + прозрачность
+// DONE мутация: деленеи на 3 части
+// TODO треугольное поле
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 60 * 10;
-    final static int NUMBER_OF_SECTION = 20;
+    final static int MAX_TIME = 60 * 5;
+    final static int NUMBER_OF_SECTION = 10;
 
     static void draw(Image image) {
         ImageFrame frame = new ImageFrame(image);
@@ -67,16 +68,17 @@ public class ImageTest {
                              ImageRGB image) {
         GeneticImageModelF geneticImage = new GeneticImageModelF(image);
         Generator<TrianImgRGBDepthTrans, GeneticImageModelF> generator
-                = new GeneratorImage<>(geneticImage, 10, 15, 15);
+                = new GeneratorImage<>(geneticImage, 10, 30, 0);
 
         AbsTest(geneticImage, generator, realImage, image);
     }
 
+
     public static void TestG(ImageRGB realImage,
                              ImageRGB image) {
         GeneticImageModelG geneticImage = new GeneticImageModelG(image);
-        Generator<TrianImgRGBTrans, GeneticImageModelG> generator
-                = new GeneratorImage<>(geneticImage, 10, 20, 10);
+        Generator<TrianImgRGBDepthTrans, GeneticImageModelG> generator
+                = new GeneratorImage<>(geneticImage, 10, 10, 10);
 
         AbsTest(geneticImage, generator, realImage, image);
     }
@@ -128,7 +130,7 @@ public class ImageTest {
         ImageRGB image = new ImageRGB(ImageFile, 0.2);
         ImageRGB realImage = new ImageRGB(ImageFile, 1);
 
-        TestF(realImage, image);
+        TestG(realImage, image);
     }
 
 }

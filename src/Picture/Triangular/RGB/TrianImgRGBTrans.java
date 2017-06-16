@@ -2,7 +2,7 @@ package Picture.Triangular.RGB;
 
 import Geometry.Point;
 import Picture.Triangular.AbsTriangleImage;
-import Picture.Triangular.Triangle.TrianColorRGBDepth;
+import Picture.Triangular.Triangle.TrianColorRGBTrans;
 
 import java.util.ArrayList;
 
@@ -10,24 +10,25 @@ import java.util.ArrayList;
  * Created by Stas on 06.06.2017.
  */
 public class TrianImgRGBTrans extends AbsTriangleImage {
-    public ArrayList<TrianColorRGBDepth> getTriangles() {
+    public ArrayList<TrianColorRGBTrans> getTriangles() {
         return triangles;
     }
 
-    ArrayList<TrianColorRGBDepth> triangles;
+    ArrayList<TrianColorRGBTrans> triangles;
 
-    public TrianImgRGBTrans(ArrayList<TrianColorRGBDepth> triangles) {
+    public TrianImgRGBTrans(ArrayList<TrianColorRGBTrans> triangles) {
         super();
         this.triangles = triangles;
     }
 
     protected double[] get(Point point) {
         double[] result = new double[3];
-        for (TrianColorRGBDepth triangle : triangles) {
+        for (TrianColorRGBTrans triangle : triangles) {
             if (triangle.inside(point)) {
                 double[] temp = triangle.getColor();
+                double alpha = triangle.getTrans();
                 for (int k = 0; k < 3; k++) {
-                    result[k] += temp[k] * 255 / 2;
+                    result[k] += temp[k] * alpha * 255;
                 }
             }
         }
@@ -38,7 +39,7 @@ public class TrianImgRGBTrans extends AbsTriangleImage {
         return triangles.size();
     }
 
-    public TrianColorRGBDepth getTriangle(int ind) {
+    public TrianColorRGBTrans getTriangle(int ind) {
         return triangles.get(ind);
     }
 }
