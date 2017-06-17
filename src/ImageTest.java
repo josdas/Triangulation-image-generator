@@ -32,7 +32,7 @@ import java.io.IOException;
 // DONE треугольное поле
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 60 * 2;
+    final static int MAX_TIME = 60 * 20;
     final static int NUMBER_OF_SECTION = 30;
 
     static void draw(Image image) {
@@ -42,7 +42,7 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("test_3.jpg"));
+            return ImageIO.read(new File("data/I.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class ImageTest {
             if (timeSpent > MAX_TIME) {
                 break;
             }
-            if (timeSpent > MAX_TIME / NUMBER_OF_SECTION * sectionIndex) {
+            if (timeSpent > MAX_TIME * sectionIndex / NUMBER_OF_SECTION) {
                 sectionIndex++;
                 geneticImage.MAX_SIZE += 5;
                 System.out.println("Switch");

@@ -8,10 +8,19 @@ import java.util.Random;
  * Created by Stas on 11.06.2017.
  */
 public class TrianColorRGBDepth extends Triangle {
+    double depth;
+    double[] color;
+
     public TrianColorRGBDepth(Triangle b, double depth, double[] color) {
         super(b);
         this.depth = depth;
         this.color = color;
+    }
+
+    public TrianColorRGBDepth(TrianColorRGBDepth a) {
+        super(a);
+        this.color = a.color;
+        this.depth = a.depth;
     }
 
     public double getDepth() {
@@ -22,13 +31,12 @@ public class TrianColorRGBDepth extends Triangle {
         return color;
     }
 
-    double depth;
-    double[] color;
+    public void setDepth(double depth) {
+        this.depth = depth;
+    }
 
-    public TrianColorRGBDepth(TrianColorRGBDepth a) {
-        super(a);
-        this.color = a.color;
-        this.depth = a.depth;
+    public void setColor(double[] color) {
+        this.color = color;
     }
 
     public static TrianColorRGBDepth getRand(Random random) {
@@ -43,11 +51,4 @@ public class TrianColorRGBDepth extends Triangle {
         );
     }
 
-    public void setDepth(double depth) {
-        this.depth = depth;
-    }
-
-    public void setColor(double[] color) {
-        this.color = color;
-    }
 }

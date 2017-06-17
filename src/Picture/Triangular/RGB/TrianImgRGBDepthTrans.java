@@ -1,34 +1,28 @@
 package Picture.Triangular.RGB;
 
 import Geometry.Point;
-import Picture.Triangular.AbsTriangleImage;
 import Picture.Triangular.Triangle.TrianColorRGBDepthTrans;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Created by Stas on 06.06.2017.
  */
-public class TrianImgRGBDepthTrans extends AbsTriangleImage {
-    public ArrayList<TrianColorRGBDepthTrans> getTriangles() {
-        return triangles;
-    }
-
-    ArrayList<TrianColorRGBDepthTrans> triangles;
-
+public class TrianImgRGBDepthTrans extends TemplateTrnglImg<TrianColorRGBDepthTrans> {
     public TrianImgRGBDepthTrans(ArrayList<TrianColorRGBDepthTrans> triangles) {
-        super();
-        this.triangles = triangles;
+        super(triangles);
     }
 
+    @Override
     protected double[] get(Point point) {
         double[] result = new double[3];
-        ArrayList<TrianColorRGBDepthTrans> goodTriangles = new ArrayList<>();
-        for (TrianColorRGBDepthTrans triangle : triangles) {
-            if (triangle.inside(point)) {
-                goodTriangles.add(triangle);
-            }
-        }
+        ArrayList<TrianColorRGBDepthTrans> goodTriangles = triangles.stream()
+                .filter(
+                        triangle -> triangle.inside(point)
+                ).collect(
+                        Collectors.toCollection(ArrayList::new)
+                );
         goodTriangles.sort((a, b) -> {
             double valueA = a.getDepth();
             double valueB = b.getDepth();
@@ -46,17 +40,9 @@ public class TrianImgRGBDepthTrans extends AbsTriangleImage {
             double k = alpha * triangle.getTrans();
             alpha *= 1 - triangle.getTrans();
             for (int i = 0; i < 3; i++) {
-                result[i] += k * temp[i] * 255;
+                result[i] += k * temp[i];
             }
         }
         return result;
-    }
-
-    public int size() {
-        return triangles.size();
-    }
-
-    public TrianColorRGBDepthTrans getTriangle(int ind) {
-        return triangles.get(ind);
     }
 }

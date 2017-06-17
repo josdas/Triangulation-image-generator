@@ -29,21 +29,6 @@ public class ImageRGB extends AbsImage {
         }
     }
 
-    public ImageWB[] toImagesWB() {
-        ImageWB[] imagesWB = new ImageWB[3];
-        for (int i = 0; i < 3; i++) {
-            imagesWB[i] = new ImageWB(h, w);
-        }
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                for (int k = 0; k < 3; k++) {
-                    imagesWB[k].set(i, j, data[i][j][k]);
-                }
-            }
-        }
-        return imagesWB;
-    }
-
     public ImageRGB(BufferedImage image, double t) {
         super((int) (image.getHeight() * t), (int) (image.getWidth() * t));
         data = new double[h][w][3];
@@ -64,8 +49,6 @@ public class ImageRGB extends AbsImage {
         return data[x][y][color];
     }
 
-
-
     @Override
     public void set(int x, int y, int[] rgb) {
         for (int i = 0; i < 3; i++) {
@@ -80,5 +63,20 @@ public class ImageRGB extends AbsImage {
             rgb[i] = (int) data[x][y][i];
         }
         return rgb;
+    }
+
+    public ImageWB[] toImagesWB() {
+        ImageWB[] imagesWB = new ImageWB[3];
+        for (int i = 0; i < 3; i++) {
+            imagesWB[i] = new ImageWB(h, w);
+        }
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                for (int k = 0; k < 3; k++) {
+                    imagesWB[k].set(i, j, data[i][j][k]);
+                }
+            }
+        }
+        return imagesWB;
     }
 }

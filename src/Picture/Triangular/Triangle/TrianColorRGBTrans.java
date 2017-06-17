@@ -8,10 +8,19 @@ import java.util.Random;
  * Created by Stas on 11.06.2017.
  */
 public class TrianColorRGBTrans extends Triangle {
+    double trans;
+    double[] color;
+
     public TrianColorRGBTrans(Triangle b, double trans, double[] color) {
         super(b);
         this.trans = trans;
         this.color = color;
+    }
+
+    public TrianColorRGBTrans(TrianColorRGBTrans a) {
+        super(a);
+        this.color = a.color;
+        this.trans = a.trans;
     }
 
     public double getTrans() {
@@ -22,13 +31,12 @@ public class TrianColorRGBTrans extends Triangle {
         return color;
     }
 
-    double trans;
-    double[] color;
+    public void setTrans(double depth) {
+        this.trans = trans;
+    }
 
-    public TrianColorRGBTrans(TrianColorRGBTrans a) {
-        super(a);
-        this.color = a.color;
-        this.trans = a.trans;
+    public void setColor(double[] color) {
+        this.color = color;
     }
 
     public static TrianColorRGBTrans getRand(Random random) {
@@ -41,13 +49,5 @@ public class TrianColorRGBTrans extends Triangle {
                 random.nextDouble(),
                 rgb
         );
-    }
-
-    public void setTrans(double depth) {
-        this.trans = trans;
-    }
-
-    public void setColor(double[] color) {
-        this.color = color;
     }
 }

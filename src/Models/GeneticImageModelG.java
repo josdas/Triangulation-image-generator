@@ -141,7 +141,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
     public TrianImgRGBDepthTransOrdered mutationm(TrianImgRGBDepthTransOrdered obj) {
         ArrayList<TrianColorRGBTrans> triangles = new ArrayList<>();
         int type = random.nextInt(3);
-        if (random.nextDouble() < 0.2) {
+        if (random.nextDouble() < 0.5) {
             type = 3;
         }
         if (obj.size() == 0 || type == 0) {

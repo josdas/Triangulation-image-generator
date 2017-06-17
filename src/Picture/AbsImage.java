@@ -13,6 +13,17 @@ public abstract class AbsImage {
         this.h = h;
         this.w = w;
     }
+    public abstract void set(int x, int y, int[] rgb);
+
+    public abstract int[] getColor(int x, int y);
+
+    public int getH() {
+        return h;
+    }
+
+    public int getW() {
+        return w;
+    }
 
     protected void build(BufferedImage image, double t) {
         for (int i = 0; i < h; i++) {
@@ -28,18 +39,6 @@ public abstract class AbsImage {
                 set(i, j, rgb);
             }
         }
-    }
-
-    public abstract void set(int x, int y, int[] rgb);
-
-    public abstract int[] getColor(int x, int y);
-
-    public int getH() {
-        return h;
-    }
-
-    public int getW() {
-        return w;
     }
 
     public java.awt.Image getImage() {

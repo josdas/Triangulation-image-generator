@@ -1,7 +1,6 @@
 package Picture.Triangular.RGB;
 
 import Geometry.Point;
-import Picture.Triangular.AbsTriangleImage;
 import Picture.Triangular.Triangle.TrianColorRGBTrans;
 
 import java.util.ArrayList;
@@ -9,18 +8,12 @@ import java.util.ArrayList;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class TrianImgRGBTrans extends AbsTriangleImage {
-    public ArrayList<TrianColorRGBTrans> getTriangles() {
-        return triangles;
-    }
-
-    ArrayList<TrianColorRGBTrans> triangles;
-
+public class TrianImgRGBTrans extends TemplateTrnglImg<TrianColorRGBTrans> {
     public TrianImgRGBTrans(ArrayList<TrianColorRGBTrans> triangles) {
-        super();
-        this.triangles = triangles;
+        super(triangles);
     }
 
+    @Override
     protected double[] get(Point point) {
         double[] result = new double[3];
         for (TrianColorRGBTrans triangle : triangles) {
@@ -28,18 +21,10 @@ public class TrianImgRGBTrans extends AbsTriangleImage {
                 double[] temp = triangle.getColor();
                 double alpha = triangle.getTrans();
                 for (int k = 0; k < 3; k++) {
-                    result[k] += temp[k] * alpha * 255;
+                    result[k] += temp[k] * alpha;
                 }
             }
         }
         return result;
-    }
-
-    public int size() {
-        return triangles.size();
-    }
-
-    public TrianColorRGBTrans getTriangle(int ind) {
-        return triangles.get(ind);
     }
 }

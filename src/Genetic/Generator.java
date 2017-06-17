@@ -7,9 +7,10 @@ import java.util.Random;
  * Created by Stas on 06.06.2017.
  */
 public abstract class Generator<T, E extends GeneticObject<T>> implements GeneticGenerator<T, E> {
+    private ArrayList<T> objects;
+
     E option;
     Random random;
-    private ArrayList<T> objects;
     int numberMutation;
     int numberCross;
     int generationSize;

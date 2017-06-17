@@ -28,7 +28,7 @@ public class TrianImgDepth extends AbsTriangleImage {
             if (triangle.inside(point)) {
                 if (h < triangle.getDepth()) {
                     h = triangle.getDepth();
-                    result = triangle.getColor() * 255;
+                    result = triangle.getColor();
                 }
             }
         }

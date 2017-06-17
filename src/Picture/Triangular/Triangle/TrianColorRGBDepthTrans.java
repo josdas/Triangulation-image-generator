@@ -8,14 +8,6 @@ import java.util.Random;
  * Created by Stas on 11.06.2017.
  */
 public class TrianColorRGBDepthTrans extends TrianColorRGBDepth {
-    public double getTrans() {
-        return trans;
-    }
-
-    public void setTrans(double trans) {
-        this.trans = trans;
-    }
-
     double trans;
 
     public TrianColorRGBDepthTrans(TrianColorRGBDepth a, double trans) {
@@ -30,6 +22,14 @@ public class TrianColorRGBDepthTrans extends TrianColorRGBDepth {
 
     public TrianColorRGBDepthTrans(Triangle b, double depth, double[] color, double trans) {
         super(b, depth, color);
+        this.trans = trans;
+    }
+
+    public double getTrans() {
+        return trans;
+    }
+
+    public void setTrans(double trans) {
         this.trans = trans;
     }
 
