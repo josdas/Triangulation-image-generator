@@ -18,11 +18,9 @@ Added RGB mode:
 
 Added new RGB mode:
 
-![5](https://github.com/josdas/Triangulation-image-generator/blob/master/screen/screen_7.png)
+![6](https://github.com/josdas/Triangulation-image-generator/blob/master/screen/screen_9.png)
 
 After some adjustment of the constant
-
-![6](https://github.com/josdas/Triangulation-image-generator/blob/master/screen/screen_9.png)
 
 ![7](https://github.com/josdas/Triangulation-image-generator/blob/master/screen/screen13.png)
 
