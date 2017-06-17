@@ -2,6 +2,7 @@ package Models;
 
 import Genetic.GeneticObject;
 import Geometry.Point;
+import Geometry.Triangle;
 import Picture.AbsImage;
 import Picture.ImageRGB;
 import Picture.ImageWB;
@@ -15,37 +16,13 @@ import java.util.Collections;
 /**
  * Created by Stas on 06.06.2017.
  */
-public class GeneticImageModelG extends ImageModel implements GeneticObject<TrianImgRGBDepthTransOrdered> {
+public class GeneticImageModelH extends ImageModel implements GeneticObject<TrianImgRGBDepthTransOrdered> {
     public int MUTATION_SIZE = 5;
     ImageWB imageCircuit;
 
-    public GeneticImageModelG(AbsImage image) {
+    public GeneticImageModelH(AbsImage image) {
         super(image);
         imageCircuit = image.toCircuit();
-    }
-
-    private void mutationFirst(
-            ArrayList<TrianColorRGBTrans> triangles,
-            TrianImgRGBDepthTransOrdered obj
-    ) {
-        for (int i = 0; i < obj.size(); i++) {
-            triangles.add(new TrianColorRGBTrans(obj.getTriangle(i)));
-        }
-        int numberMutations = random.nextInt(MUTATION_SIZE);
-
-        double prob = random.nextDouble();
-
-        for (int i = 0; i < numberMutations * 3; i++) {
-            boolean temp = prob > random.nextDouble();
-            if (triangles.size() > 0 && temp) {
-                triangles.remove(random.nextInt(triangles.size()));
-            } else {
-                triangles.add(
-                        random.nextInt(triangles.size() + 1),
-                        TrianColorRGBTrans.getRand(random)
-                );
-            }
-        }
     }
 
     private void mutationSecond(
@@ -57,36 +34,16 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
             triangles.add(new TrianColorRGBTrans(obj.getTriangle(i)));
             if (index[i]) {
                 triangles.get(i).setTrans(
-                        random.nextDouble() * 0.4 + 0.1
+                        random.nextDouble() * 0.6 + 0.1
                 );
-                Collections.swap(
-                        triangles,
-                        random.nextInt(triangles.size()),
-                        random.nextInt(triangles.size())
-                );
-            }
-        }
-    }
-
-    private void mutationThird(
-            ArrayList<TrianColorRGBTrans> triangles,
-            boolean[] index,
-            TrianImgRGBDepthTransOrdered obj
-    ) {
-        for (int i = 0; i < obj.size(); i++) {
-            TrianColorRGBTrans triangle = new TrianColorRGBTrans(obj.getTriangle(i));
-            if (index[i]) {
-                if (random.nextBoolean()) {
-                    triangle.a = smallChange(triangle.a, MUTATION_COEF * 0.3);
-                }
-                if (random.nextBoolean()) {
-                    triangle.b = smallChange(triangle.b, MUTATION_COEF * 0.3);
-                }
-                if (random.nextBoolean()) {
-                    triangle.c = smallChange(triangle.c, MUTATION_COEF * 0.3);
+                if (i > 0) {
+                    Collections.swap(
+                            triangles,
+                            random.nextInt(i),
+                            i
+                    );
                 }
             }
-            triangles.add(triangle);
         }
     }
 
@@ -97,7 +54,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
     ) {
         for (int i = 0; i < obj.size(); i++) {
             TrianColorRGBTrans triangle = new TrianColorRGBTrans(obj.getTriangle(i));
-            if (index[i] && triangle.area() > 0.05) {
+            if (index[i] && triangle.area() > 0.03) {
                 Point center = Point.div(
                         Point.add(
                                 Point.add(
@@ -107,29 +64,10 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
                                 triangle.c
                         ), 3);
                 center = smallChange(center, MUTATION_COEF * 0.3);
-                TrianColorRGBTrans A = new TrianColorRGBTrans(triangle);
-                TrianColorRGBTrans B = new TrianColorRGBTrans(triangle);
-                TrianColorRGBTrans C = new TrianColorRGBTrans(triangle);
-                A.a = center;
-                B.b = center;
-                C.c = center;
-                if (random.nextBoolean() && A.area() > 0.006) {
-                    triangles.add(
-                            random.nextInt(triangles.size() + 1),
-                            A
-                    );
-                }
-                if (random.nextBoolean() && B.area() > 0.006) {
-                    triangles.add(
-                            random.nextInt(triangles.size() + 1),
-                            B
-                    );
-                }
-                if (random.nextBoolean() && C.area() > 0.006) {
-                    triangles.add(
-                            random.nextInt(triangles.size() + 1),
-                            C
-                    );
+                for (int j = 0; j < 3; j++) {
+                    TrianColorRGBTrans temp = new TrianColorRGBTrans(triangle);
+                    temp.setPoint(j, center);
+                    triangles.add(temp);
                 }
             } else {
                 triangles.add(triangle);
@@ -140,29 +78,19 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
 
     public TrianImgRGBDepthTransOrdered mutationm(TrianImgRGBDepthTransOrdered obj) {
         ArrayList<TrianColorRGBTrans> triangles = new ArrayList<>();
-        int type = random.nextInt(3);
-        if (random.nextDouble() < 0.2) {
-            type = 3;
+        int type = random.nextInt(2);
+        int change = random.nextInt(MUTATION_SIZE) + 1;
+        boolean[] index = new boolean[obj.size()];
+        for (int i = 0; i < change; i++) {
+            index[random.nextInt(obj.size())] = true;
         }
-        if (obj.size() == 0 || type == 0) {
-            mutationFirst(triangles, obj);
-        } else {
-            int change = random.nextInt(MUTATION_SIZE) + 1;
-            boolean[] index = new boolean[obj.size()];
-            for (int i = 0; i < change; i++) {
-                index[random.nextInt(obj.size())] = true;
-            }
-            switch (type) {
-                case 1:
-                    mutationThird(triangles, index, obj);
-                    break;
-                case 2:
-                    mutationSecond(triangles, index, obj);
-                    break;
-                case 3:
-                    mutationFourth(triangles, index, obj);
-                    break;
-            }
+        switch (type) {
+            case 0:
+                mutationSecond(triangles, index, obj);
+                break;
+            case 1:
+                mutationFourth(triangles, index, obj);
+                break;
         }
         return new TrianImgRGBDepthTransOrdered(triangles);
     }
@@ -206,10 +134,8 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
                 }
             }
         }
-        double prob = Math.max(random.nextDouble(), random.nextDouble());
-        prob = 2;
         for (int i = 0; i < a.size(); i++) {
-            if (random.nextDouble() < prob && sumMass[i] > 0) {
+            if (sumMass[i] > 0) {
                 double[] rgb = new double[3];
                 for (int k = 0; k < 3; k++) {
                     rgb[k] = sumColor[i][k] / sumMass[i];
@@ -235,7 +161,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
                 result += 20;
             }
         }
-        result += obj.size() * 2;
+        result += obj.size();
         evalStore.put(obj.getNumber(), result);
         return result;
     }
@@ -247,12 +173,12 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
         ArrayList<TrianColorRGBTrans> B = new ArrayList<>();
         double k = random.nextDouble();
         for (int i = 0; i < a.size(); i++) {
-            if (random.nextDouble() < k) {
+            if (random.nextDouble() < k || i < 2) {
                 A.add(new TrianColorRGBTrans(a.getTriangle(i)));
             }
         }
         for (int i = 0; i < b.size(); i++) {
-            if (random.nextDouble() > k) {
+            if (random.nextDouble() > k || i < 2) {
                 B.add(new TrianColorRGBTrans(b.getTriangle(i)));
             }
         }
@@ -272,12 +198,36 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
         return new TrianImgRGBDepthTransOrdered(triangles);
     }
 
+
+    double[] randomColor() {
+        double[] result = new double[3];
+        for (int i = 0; i < 3; i++) {
+            result[i] = random.nextDouble();
+        }
+        return result;
+    }
+
     @Override
     public TrianImgRGBDepthTransOrdered genRand() {
         ArrayList<TrianColorRGBTrans> triangles = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            triangles.add(TrianColorRGBTrans.getRand(random));
-            triangles.get(i).setTrans(random.nextDouble() * 0.4 + 0.1);
+
+        Point[] corner = new Point[4];
+        for (int i = 0, t = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++, t++) {
+                corner[t] = new Point(i, j);
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            int n = i % 4;
+            triangles.add(new TrianColorRGBTrans(
+                    new Triangle(
+                            corner[n],
+                            corner[(n + 1) % 4],
+                            corner[(n + 2) % 4]
+                    ),
+                    random.nextDouble() * 0.6 + 0.1,
+                    randomColor()
+            ));
         }
         return new TrianImgRGBDepthTransOrdered(triangles);
     }

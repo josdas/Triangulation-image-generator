@@ -1,10 +1,7 @@
 import Genetic.Generator;
 import Genetic.GeneratorImage;
 import Genetic.GeneticObject;
-import Models.GeneticImageModelE;
-import Models.GeneticImageModelF;
-import Models.GeneticImageModelG;
-import Models.ImageModel;
+import Models.*;
 import Picture.ImageRGB;
 import Picture.Triangular.AbsTriangleImage;
 import Picture.Triangular.RGB.TrianImgRGBDepth;
@@ -32,11 +29,11 @@ import java.io.IOException;
 // DONE метрика через контур
 // DONE глубина + прозрачность
 // DONE мутация: деленеи на 3 части
-// TODO треугольное поле
+// DONE треугольное поле
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 5;
-    final static int NUMBER_OF_SECTION = 10;
+    final static int MAX_TIME = 60 * 60 * 2;
+    final static int NUMBER_OF_SECTION = 30;
 
     static void draw(Image image) {
         ImageFrame frame = new ImageFrame(image);
@@ -84,6 +81,14 @@ public class ImageTest {
         AbsTest(geneticImage, generator, realImage, image);
     }
 
+    public static void TestH(ImageRGB realImage,
+                             ImageRGB image) {
+        GeneticImageModelH geneticImage = new GeneticImageModelH(image);
+        Generator<TrianImgRGBDepthTransOrdered, GeneticImageModelH> generator
+                = new GeneratorImage<>(geneticImage, 10, 20, 0);
+
+        AbsTest(geneticImage, generator, realImage, image);
+    }
     public static <T extends AbsTriangleImage, S extends ImageModel & GeneticObject<T>> void AbsTest(
             S geneticImage,
             Generator<T, S> generator,

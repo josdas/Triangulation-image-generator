@@ -40,4 +40,26 @@ public class Triangle {
             Point.getRand(random)
         );
     }
+
+    public Point[] getPoints() {
+        Point[] result = new Point[3];
+        result[0] = a;
+        result[1] = b;
+        result[2] = c;
+        return result;
+    }
+
+    public void setPoint(int ind, Point val) {
+        switch (ind) {
+            case 0:
+                a = val;
+                break;
+            case 1:
+                b = val;
+                break;
+            case 2:
+                c = val;
+                break;
+        }
+    }
 }
