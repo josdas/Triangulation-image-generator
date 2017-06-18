@@ -39,15 +39,23 @@ public class TrianColorRGBTrans extends Triangle {
         this.color = color;
     }
 
-    public static TrianColorRGBTrans getRand(Random random) {
+    public static TrianColorRGBTrans getRand(Random random, double minArea, double maxArea) {
         double[] rgb = new double[3];
         for (int i = 0; i < 3; i++) {
             rgb[i] = random.nextDouble();
         }
+        Triangle triangle = Triangle.getRand(random);
+        while (triangle.area() > maxArea || triangle.area() < minArea) {
+            triangle = Triangle.getRand(random);
+        }
         return new TrianColorRGBTrans(
-                Triangle.getRand(random),
+                triangle,
                 random.nextDouble(),
                 rgb
         );
+    }
+
+    public static TrianColorRGBTrans getRand(Random random) {
+        return getRand(random, 0, Double.POSITIVE_INFINITY);
     }
 }

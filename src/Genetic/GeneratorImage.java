@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class GeneratorImage<T, E extends GeneticObject<T>> extends Generator<T, E> {
     final static double START_PROB = 0.3;
-    final static double SCALE_PROB = 1.5;
+    final static double SCALE_PROB = 2;
 
     public GeneratorImage(E option, int generationSize, int numberMutation, int numberCross) {
         super(option, generationSize, numberMutation, numberCross);

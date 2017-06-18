@@ -141,7 +141,7 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
     public TrianImgRGBDepthTransOrdered mutationm(TrianImgRGBDepthTransOrdered obj) {
         ArrayList<TrianColorRGBTrans> triangles = new ArrayList<>();
         int type = random.nextInt(3);
-        if (random.nextDouble() < 0.5) {
+        if (random.nextDouble() < 0.1) {
             type = 3;
         }
         if (obj.size() == 0 || type == 0) {
@@ -229,6 +229,10 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
                 tempImage,
                 image
         );
+        result += AbsImage.distance(
+                imageCircuit,
+                image.toCircuit()
+        );
         for (int i = 0; i < obj.size(); i++) {
             double area = obj.getTriangle(i).area();
             if (area < 0.002) {
@@ -275,10 +279,8 @@ public class GeneticImageModelG extends ImageModel implements GeneticObject<Tria
     @Override
     public TrianImgRGBDepthTransOrdered genRand() {
         ArrayList<TrianColorRGBTrans> triangles = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            triangles.add(TrianColorRGBTrans.getRand(random));
-            triangles.get(i).setTrans(random.nextDouble() * 0.4 + 0.1);
-        }
+        triangles.add(TrianColorRGBTrans.getRand(random, 0.005, 0.2));
+        triangles.get(triangles.size() - 1).setTrans(random.nextDouble() * 0.4 + 0.1);
         return new TrianImgRGBDepthTransOrdered(triangles);
     }
 }

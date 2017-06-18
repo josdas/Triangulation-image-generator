@@ -1,11 +1,11 @@
 import Genetic.Generator;
 import Genetic.GeneratorImage;
 import Genetic.GeneticObject;
-import Models.*;
+import Models.GeneticImageModelG;
+import Models.GeneticImageModelH;
+import Models.ImageModel;
 import Picture.ImageRGB;
 import Picture.Triangular.AbsTriangleImage;
-import Picture.Triangular.RGB.TrianImgRGBDepth;
-import Picture.Triangular.RGB.TrianImgRGBDepthTrans;
 import Picture.Triangular.RGB.TrianImgRGBDepthTransOrdered;
 
 import javax.imageio.ImageIO;
@@ -29,10 +29,10 @@ import java.io.IOException;
 // DONE метрика через контур
 // DONE глубина + прозрачность
 // DONE мутация: деленеи на 3 части
-// DONE треугольное поле
+// TODO история мутаций
 
 public class ImageTest {
-    final static int MAX_TIME = 60 * 20;
+    final static int MAX_TIME = 60 * 60;
     final static int NUMBER_OF_SECTION = 30;
 
     static void draw(Image image) {
@@ -42,7 +42,7 @@ public class ImageTest {
 
     static BufferedImage getImageFromFile() {
         try {
-            return ImageIO.read(new File("data/I.jpg"));
+            return ImageIO.read(new File("data/test_9.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,25 +52,6 @@ public class ImageTest {
     public static void drawTriangleImage(AbsTriangleImage triangleImage, int h, int w) {
         draw(triangleImage.getImage(h, w).getImage());
     }
-
-    public static void TestE(ImageRGB realImage,
-                             ImageRGB image) {
-        GeneticImageModelE geneticImage = new GeneticImageModelE(image);
-        Generator<TrianImgRGBDepth, GeneticImageModelE> generator
-                = new GeneratorImage<>(geneticImage, 10, 20, 10);
-
-        AbsTest(geneticImage, generator, realImage, image);
-    }
-
-    public static void TestF(ImageRGB realImage,
-                             ImageRGB image) {
-        GeneticImageModelF geneticImage = new GeneticImageModelF(image);
-        Generator<TrianImgRGBDepthTrans, GeneticImageModelF> generator
-                = new GeneratorImage<>(geneticImage, 10, 30, 0);
-
-        AbsTest(geneticImage, generator, realImage, image);
-    }
-
 
     public static void TestG(ImageRGB realImage,
                              ImageRGB image) {
